@@ -1,0 +1,72 @@
+---
+layout: landing
+title: Home
+description: Technickly Labs - Local AI workflows and project documentation
+---
+
+<header class="tl-header">
+  <div class="tl-container tl-nav-wrap">
+    <a class="tl-logo" href="{{ '/' | relative_url }}">
+      <span class="tl-logo-dot" aria-hidden="true"></span>
+      <span>Technickly Labs</span>
+    </a>
+
+    <nav class="tl-nav" aria-label="Primary Navigation">
+      <a class="tl-nav-link tl-nav-link-active" href="{{ '/' | relative_url }}">Home</a>
+      <a class="tl-nav-link" href="{{ '/projects/' | relative_url }}">Projects</a>
+      <a class="tl-nav-link" href="{{ '/about/' | relative_url }}">About</a>
+      <a class="tl-nav-gh" href="https://github.com/technickly" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tl-hero" id="top">
+    <div class="tl-container tl-hero-frame">
+      <div class="tl-hero-left">
+        <h1 class="tl-hero-title">Keep it local. Keep it safe.</h1>
+        <p class="tl-hero-subtitle">
+          Walk-through template for local AI MVPs: project overview, architecture, workflow, setup, and end-to-end runs you can replicate, test, and modify.
+        </p>
+        <p class="tl-hero-subtitle">
+          Deep dives cover chunking, indexing, <strong>RAG</strong> patterns, API/UI integration, implementation research, and tunable software and hardware settings.
+        </p>
+
+        <div class="tl-hero-actions">
+          <a class="tl-btn tl-btn-primary" href="{{ '/projects/' | relative_url }}">Browse Projects</a>
+          <a class="tl-btn tl-btn-secondary" href="https://github.com/technickly" target="_blank" rel="noopener noreferrer">Go to GitHub</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="tl-focus" id="focus">
+    <div class="tl-container">
+      <h2 class="tl-section-title">Current Focus</h2>
+      <p class="tl-section-subtitle">Active and upcoming projects <span aria-hidden="true">•</span> Built with modern local AI stack</p>
+
+      <div class="tl-card-grid">
+        <article class="tl-card">
+          <p class="tl-badge">Active</p>
+          <h3 class="tl-card-title">Opsis (Active)</h3>
+          <p class="tl-card-copy">Jira + WebDAV + <strong>RAG</strong> automation using <strong>Python</strong>, <strong>Docker</strong>, <strong>Ollama</strong>, <strong>CrewAI</strong>, and <strong>PineconeDB</strong>.</p>
+          <p class="tl-card-links">
+            <a href="{{ '/projects/opsis/' | relative_url }}">Project page</a>
+            <span aria-hidden="true">•</span>
+            <a href="{{ '/projects/opsis/docs/' | relative_url }}">Docs index</a>
+          </p>
+        </article>
+
+        <article class="tl-card tl-card-warm">
+          <p class="tl-badge tl-badge-warm">In Progress</p>
+          <h3 class="tl-card-title">RoleSmith (Next)</h3>
+          <p class="tl-card-copy">Resume/JD alignment pipeline with extraction, taxonomy matching, and scoring workflows.</p>
+          <p class="tl-card-links">
+            <a href="{{ '/projects/rolesmith/' | relative_url }}">Placeholder page</a>
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>

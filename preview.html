@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opsis - Local AI-Powered Document Intelligence</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#" class="logo">
+          <span class="logo-icon"></span>
+          <span class="logo-text">Opsis</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="#" class="nav-link">Home</a>
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#getting-started" class="nav-link">Get Started</a>
+          <a href="#" class="nav-link">Docs</a>
+          <a href="#" class="nav-link">About</a>
+        </div>
+
+        <a href="#getting-started" class="btn btn-primary-nav">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Opsis: Local AI-Powered Document Intelligence</h1>
+
+        <p><strong>Opsis</strong> is a sophisticated local AI system that brings the power of Retrieval-Augmented Generation (RAG) and Large Language Models to your personal workflow. By seamlessly integrating CrewAI workflows with OpenDAV and Jira, Opsis transforms how you interact with documents and manage tasks.</p>
+
+        <div style="margin: 2rem 0; text-align: center;">
+          <a href="#getting-started" class="btn btn-primary btn-large">Get Started →</a>
+          <a href="#features" class="btn btn-secondary btn-large">Explore Features</a>
+        </div>
+
+        <hr style="margin: 3rem 0; border-color: rgba(0,0,0,0.1);">
+
+        <h3>Why Opsis?</h3>
+
+        <p>In a world where privacy and data sovereignty matter, Opsis runs entirely on your local infrastructure. No cloud dependencies, no data leaving your network, just pure AI-powered productivity at your fingertips.</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3> Local RAG System</h3>
+            <p>Query your documents intelligently using advanced retrieval-augmented generation without sending data to the cloud.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3> CrewAI Integration</h3>
+            <p>Orchestrate complex AI workflows with multiple specialized agents working together seamlessly.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3> OpenDAV Support</h3>
+            <p>Connect to your favorite cloud storage with standard WebDAV protocol support.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3> Jira Integration</h3>
+            <p>Bridge the gap between AI insights and project management automatically.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3> Privacy-First</h3>
+            <p>Everything runs locally—your data never leaves your control. Perfect for compliance.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3> Lightning Fast</h3>
+            <p>Optimized for performance with support for GPU acceleration and efficient indexing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <article class="page">
+        <section id="getting-started" style="max-width: 900px; margin: 0 auto; padding: 3rem 0;">
+          <h2>Quick Start in 3 Steps</h2>
+
+          <h3>1. Install Opsis</h3>
+          <pre><code># Clone the repository
+git clone https://github.com/yourusername/opsis.git
+cd opsis
+
+# Install dependencies
+pip install -r requirements.txt</code></pre>
+
+          <h3>2. Configure Your Environment</h3>
+          <pre><code># config.yml
+opsis:
+  data_dir: ./data
+  index_dir: ./indexes
+
+llm:
+  provider: ollama
+  model: llama3
+  base_url: http://localhost:11434
+
+rag:
+  chunk_size: 1000
+  retrieval_k: 5</code></pre>
+
+          <h3>3. Start Using Opsis</h3>
+          <pre><code>from opsis import Opsis
+
+# Initialize
+opsis = Opsis(config_path='config.yml')
+
+# Index your documents
+opsis.index_directory('/path/to/docs')
+
+# Query your knowledge base
+response = opsis.query("What are the key takeaways from Q4 reports?")
+print(response.answer)</code></pre>
+
+          <hr style="margin: 3rem 0;">
+
+          <h2>Perfect For</h2>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+            <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); padding: 1.5rem; border-radius: 1rem; border: 2px solid #e2e8f0;">
+              <h3 style="margin-top: 0;"> Developers</h3>
+              <p>Manage extensive documentation, query codebases, and automate development workflows.</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8fafc 0%, #fce7f3 100%); padding: 1.5rem; border-radius: 1rem; border: 2px solid #e2e8f0;">
+              <h3 style="margin-top: 0;"> Enterprises</h3>
+              <p>Deploy AI capabilities while maintaining compliance and data sovereignty requirements.</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); padding: 1.5rem; border-radius: 1rem; border: 2px solid #e2e8f0;">
+              <h3 style="margin-top: 0;"> Project Managers</h3>
+              <p>Bridge documentation and task tracking with AI-powered insights and automation.</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8fafc 0%, #dcfce7 100%); padding: 1.5rem; border-radius: 1rem; border: 2px solid #e2e8f0;">
+              <h3 style="margin-top: 0;"> Researchers</h3>
+              <p>Organize and query vast amounts of research materials privately and efficiently.</p>
+            </div>
+          </div>
+
+          <hr style="margin: 3rem 0;">
+
+          <h2>Built With Modern AI Stack</h2>
+
+          <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 2rem; border-radius: 1.5rem; margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; text-align: center;">
+              <div>
+                <h4 style="color: #60a5fa; margin-bottom: 0.5rem;"> LangChain</h4>
+                <p style="color: #cbd5e1; font-size: 0.9rem;">RAG orchestration</p>
+              </div>
+              <div>
+                <h4 style="color: #a78bfa; margin-bottom: 0.5rem;"> CrewAI</h4>
+                <p style="color: #cbd5e1; font-size: 0.9rem;">Multi-agent workflows</p>
+              </div>
+              <div>
+                <h4 style="color: #34d399; margin-bottom: 0.5rem;"> Ollama</h4>
+                <p style="color: #cbd5e1; font-size: 0.9rem;">Local LLM runtime</p>
+              </div>
+              <div>
+                <h4 style="color: #fbbf24; margin-bottom: 0.5rem;"> ChromaDB</h4>
+                <p style="color: #cbd5e1; font-size: 0.9rem;">Vector database</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-cta">
+            <h2>Ready to Transform Your Workflow?</h2>
+            <p>Start using Opsis today and experience AI-powered productivity without compromising privacy.</p>
+            <a href="#getting-started" class="btn btn-large" style="background: white; color: #3b82f6; font-weight: 700;">Get Started Now →</a>
+            <a href="#" class="btn btn-large btn-outline" style="color: white; border-color: white;">View Documentation</a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <span class="logo-icon"></span>
+            <span class="logo-text">Opsis</span>
+          </div>
+          <p class="footer-description">
+            Local AI-powered RAG system for private, intelligent document management.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="https://github.com/yourusername/opsis">GitHub</a></li>
+            <li><a href="mailto:technickly@gmail.com">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:technickly@gmail.com">Email</a></li>
+            <li><a href="https://technickly.ai">Website</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Opsis. Built by Nick.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

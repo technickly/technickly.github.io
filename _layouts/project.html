@@ -1,0 +1,52 @@
+---
+layout: default
+---
+
+<article class="project-page">
+  <div class="container">
+    <!-- Project Header -->
+    <header class="project-header" style="text-align: center; padding: 3rem 0 2rem 0; max-width: 900px; margin: 0 auto;">
+      {% if page.icon %}
+      <div style="font-size: 4rem; margin-bottom: 1rem;">{{ page.icon }}</div>
+      {% endif %}
+
+      <h1 class="project-title" style="margin-bottom: 1rem;">{{ page.title }}</h1>
+
+      {% if page.tagline %}
+      <p class="project-tagline" style="font-size: 1.35rem; color: #64748b; margin-bottom: 1.5rem;">{{ page.tagline }}</p>
+      {% endif %}
+
+      {% if page.tech_stack %}
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
+        {% for tech in page.tech_stack %}
+        <span style="background: #f1f5f9; color: #3b82f6; padding: 0.4rem 1rem; border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">{{ tech }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if page.github_url or page.docs_url or page.demo_url %}
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        {% if page.github_url %}
+        <a href="{{ page.github_url }}" class="btn btn-primary" target="_blank">View on GitHub →</a>
+        {% endif %}
+        {% if page.docs_url %}
+        <a href="{{ page.docs_url | relative_url }}" class="btn btn-secondary">View Project Documents</a>
+        {% endif %}
+        {% if page.demo_url %}
+        <a href="{{ page.demo_url }}" class="btn btn-secondary" target="_blank">Live Demo →</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </header>
+
+    <!-- Project Content -->
+    <div class="project-content" style="max-width: 900px; margin: 0 auto; padding-bottom: 3rem;">
+      {{ content }}
+    </div>
+
+    <!-- Back to Projects -->
+    <div style="text-align: center; padding: 2rem 0; border-top: 2px solid #f1f5f9;">
+      <a href="{{ '/projects/' | relative_url }}" class="btn btn-outline">← Back to All Projects</a>
+    </div>
+  </div>
+</article>

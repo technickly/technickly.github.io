@@ -1,0 +1,46 @@
+# Site settings
+title: Technickly Labs
+description: Project showcase for Opsis and RoleSmith
+baseurl: ""
+url: "https://technickly.github.io"
+
+author:
+  name: Nick Anderson
+  email: technickly@gmail.com
+
+markdown: kramdown
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - QUICKSTART.md
+  - .gitignore
+  - deploy.sh
+  - scripts/
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
