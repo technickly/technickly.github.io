@@ -36,6 +36,7 @@ On a 16 GB Mac, Docker Desktop's default memory limit is often set to 8 GB — m
 
 ### Check if it was actually an OOM kill
 
+{% raw %}
 ```bash
 # See the last exit code and reason for the ollama container
 docker inspect ollama-local --format '{{.State.ExitCode}} {{.State.Error}}'
@@ -43,6 +44,7 @@ docker inspect ollama-local --format '{{.State.ExitCode}} {{.State.Error}}'
 # Full container event log
 docker events --filter container=ollama-local --since 1h
 ```
+{% endraw %}
 
 Exit code `137` = killed by SIGKILL = almost always OOM.
 
