@@ -23,7 +23,7 @@ With everything running together:
 |---|---|
 | Jira + Postgres | ~2.5–3.5 GB |
 | WebDAV | ~50 MB |
-| Pinecone Local | ~200 MB |
+| PineconeDB | ~200 MB |
 | `llama3.1:8b` at Q4 | ~5–6 GB |
 | Pipeline app | ~300 MB |
 | **Total** | **~9–10 GB** |

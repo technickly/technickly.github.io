@@ -33,7 +33,7 @@ python -m synthetic.pdf_generator \
 # Upload generated PDFs in browser
 # http://localhost:8082 (FileBrowser)
 
-# then index into Pinecone Local
+# then index into PineconeDB
 bash scripts/index-pdfs.sh
 curl http://localhost:5080/indexes | python3 -m json.tool
 ```

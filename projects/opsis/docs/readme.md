@@ -20,13 +20,13 @@ A fully local AI pipeline that watches Jira for new support tickets, retrieves c
 | **Jira Postgres** | Jira database | `5432` | Docker container | `postgres:14-alpine` |
 | **WebDAV** | PDF knowledge base storage | `8081` | Docker container | `bytemark/webdav:latest` |
 | **FileBrowser** | Browser UI to upload/view PDFs | `8082` | Docker container | `coderaiser/cloudcmd:latest` |
-| **Pinecone Local** | Vector store for RAG | `5080` + `5081`* | Docker container | `ghcr.io/pinecone-io/pinecone-local:latest` |
+| **PineconeDB** | Vector store for RAG | `5080` + `5081`* | Docker container | `ghcr.io/pinecone-io/pinecone-local:latest` |
 | **Ollama** | LLM + embeddings (Metal GPU) | `11434` | **Native Mac** — `ollama serve` | _(not containerized)_ |
 | **PDF Generator** | Synthetic PDF creator for testing | | **Native Mac** — `python app/synthetic/pdf_generator.py` | _(not containerized)_ |
 | **Indexer** | Chunk + embed PDFs, upsert into Pinecone | | **Native Mac** — `bash scripts/index-pdfs.sh` | Runs inside the Pipeline image |
 | **Pipeline** | CrewAI orchestration app | | Docker container | Built from `app/Dockerfile` |
 
-> *Pinecone Local uses port `5080` for its control plane (index management) and port `5081` for the data plane (vector upsert/query) of the first created index. See [`docs/pinecone-local-issues.md`](../pinecone-local-issues/).
+> *PineconeDB uses port `5080` for its control plane (index management) and port `5081` for the data plane (vector upsert/query) of the first created index. See [`docs/pinecone-local-issues.md`](../pinecone-local-issues/).
 
 > **Ollama runs natively** on the Mac host (not in Docker) to access Apple Silicon Metal GPU.
 > Docker containers reach it via `http://host.docker.internal:11434`.
@@ -51,19 +51,32 @@ New Jira Ticket
       ▼
 [CrewAI: Knowledge Retriever]
   → Embeds ticket text via Ollama (nomic-embed-text:latest)
-  → Queries Pinecone Local for top-k relevant PDF chunks
+  → Queries PineconeDB for top-k relevant PDF chunks
   → Returns: source filenames + relevant excerpts
       │
       ▼
-[CrewAI: Response Writer]
+[CrewAI: Response Writer — Phanes]
   → Uses Ollama LLM (llama3.2:latest) to draft a response
+  → Writes in the voice of a Stoic philosopher (warm, precise, cites sources)
   → Cites PDF sources by filename/page
+  → Signs every response: — Phanes, Opsis Support
       │
       ▼
 [Jira API: Post Comment]
-  → Posts formatted first-response to ticket
+  → Posts formatted first-response as the `phanes` Jira bot user
   → Labels ticket: auto-responded
 ```
+
+> **Response persona is configurable.** The Response Writer's voice, tone, and style are driven by
+> the agent's `role`, `goal`, `backstory`, and `temperature` fields in `app/agents/response_writer.py`.
+> The current persona is **Phanes** — a Stoic philosopher who writes with warmth, precision, and
+> philosophical framing. The backstory acts as a persistent character prompt that shapes every
+> word of the generated response.
+>
+> Different Jira reporter identities could trigger different personas — a VIP customer gets Phanes,
+> an internal user gets a terse senior-engineer voice, a new user gets a friendly intern.
+> See [`docs/custom_response_agent_context.md`](../custom-llm-agent-context/) for the full
+> persona design and [`docs/future-steps.md`](../future-steps/) for the multi-agent roadmap.
 
 ---
 
@@ -123,7 +136,7 @@ mvp-opsis/
 ├── docker/
 │   ├── jira/README.md         ← Jira setup & license notes
 │   ├── webdav/README.md       ← WebDAV + FileBrowser guide
-│   ├── pinecone/README.md     ← Pinecone Local setup
+│   ├── pinecone/README.md     ← PineconeDB setup
 │   └── ollama/README.md       ← Ollama native Mac setup
 │
 ├── app/                       ← Pipeline application
@@ -170,7 +183,7 @@ mvp-opsis/
 | `OLLAMA_BASE_URL` | `http://host.docker.internal:11434` | Native Ollama host |
 | `OLLAMA_LLM_MODEL` | `llama3.2:latest` | LLM for response generation |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text:latest` | Embedding model for RAG |
-| `PINECONE_HOST` | `http://localhost:5080` | Pinecone Local URL |
+| `PINECONE_HOST` | `http://localhost:5080` | PineconeDB URL |
 
 ---
 
@@ -181,11 +194,13 @@ mvp-opsis/
 - [Architecture](../architecture/) — design decisions & data flow
 - [Jira Setup](../docker-jira/)
 - [WebDAV + FileBrowser](../docker-webdav-filebrowser/)
-- [Pinecone Local](../docker-pinecone-local/)
+- [PineconeDB](../docker-pinecone-local/)
 - [Ollama Native Setup](../docker-ollama/)
 - [Embedding Models Research](../ollama-embedding-research/)
 - [LLM Models Research](../ollama-models-research/)
 - [Ollama API Test Commands](../ollama-test-api/)
+- [Response Agent Persona — Phanes](../custom-llm-agent-context/) — Stoic philosopher tone, CrewAI parameters, before/after examples, Jira bot user setup
+- [Future Steps](../future-steps/) — multi-agent personas, escalation ladder, reporter-identity routing
 
 ---
 

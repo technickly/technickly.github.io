@@ -17,45 +17,63 @@ This system is a local-first, event-driven RAG pipeline. All components run in D
 ## Component Map
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  Docker Network: mvp-net             │
-│                                                      │
-│  ┌──────────┐    ┌──────────┐    ┌───────────────┐  │
-│  │  Jira    │    │  WebDAV  │    │ Pinecone Local│  │
-│  │ :8080    │    │ :8081    │    │    :5080      │  │
-│  │          │    │          │    │               │  │
-│  │ Postgres │    │ PDF      │    │ Vector Index  │  │
-│  │ DB :5432 │    │ Storage  │    │ ticket-know.. │  │
-│  └────┬─────┘    └────┬─────┘    └──────┬────────┘  │
-│       │               │                 │            │
-│       │         ┌─────┘                 │            │
-│       │         │                       │            │
-│  ┌────▼─────────▼───────────────────────▼─────────┐  │
-│  │                  Pipeline App                   │  │
-│  │              (CrewAI + Python)                  │  │
-│  │                                                 │  │
-│  │  ┌──────────────┐   ┌──────────────────────┐   │  │
-│  │  │ Polling Loop │   │  PDF Indexer (once)  │   │  │
-│  │  │ main.py      │   │  indexer/            │   │  │
-│  │  └──────┬───────┘   └──────────────────────┘   │  │
-│  │         │                                       │  │
-│  │  ┌──────▼──────────────────────────────────┐   │  │
-│  │  │           CrewAI Support Crew            │   │  │
-│  │  │                                          │   │  │
-│  │  │  Agent 1          Agent 2        Agent 3 │   │  │
-│  │  │  Ticket           Knowledge      Response│   │  │
-│  │  │  Analyzer      ─► Retriever   ─► Writer  │   │  │
-│  │  └──────────────────────────────────────────┘   │  │
-│  └────────────────────────┬────────────────────────┘  │
-│                           │                            │
-│                    ┌──────▼──────┐                     │
-│                    │   Ollama    │                     │
-│                    │   :11434    │                     │
-│                    │             │                     │
-│                    │ llama3.1:8b │                     │
-│                    │ nomic-embed │                     │
-│                    └─────────────┘                     │
-└─────────────────────────────────────────────────────┘
+  Mac Host
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                                                                  │
+  │   ┌─────────────────────────────────────────────────────────┐   │
+  │   │                Docker Network: mvp-net                   │   │
+  │   │                                                          │   │
+  │   │  ┌─────────────────┐   ┌────────────────────────────┐   │   │
+  │   │  │      Jira        │   │  WebDAV volume (shared)    │   │   │
+  │   │  │  :8080           │   │                            │   │   │
+  │   │  │                  │   │  ┌──────────┐ ┌─────────┐  │   │   │
+  │   │  │  ┌────────────┐  │   │  │  WebDAV  │ │File     │  │   │   │
+  │   │  │  │ Postgres   │  │   │  │  :8081   │ │Browser  │  │   │   │
+  │   │  │  │ DB :5432   │  │   │  │          │ │:8082    │  │   │   │
+  │   │  │  └────────────┘  │   │  │ PDF store│ │Browser  │  │   │   │
+  │   │  └────────┬─────────┘   │  │ (WebDAV) │ │upload UI│  │   │   │
+  │   │           │              │  └────┬─────┘ └─────────┘  │   │   │
+  │   │           │              │       │  bytemark/webdav    │   │   │
+  │   │           │              │       │  coderaiser/cloudcmd│   │   │
+  │   │           │              └───────┼────────────────────┘   │   │
+  │   │           │                      │                         │   │
+  │   │           │         ┌────────────────────┐                 │   │
+  │   │           │         │  PineconeDB     │                 │   │
+  │   │           │         │  ctrl :5080         │                 │   │
+  │   │           │         │  data :5081         │                 │   │
+  │   │           │         │  Vector Index       │                 │   │
+  │   │           │         │  ticket-knowledge   │                 │   │
+  │   │           │         └──────────┬──────────┘                 │   │
+  │   │           │                    │                             │   │
+  │   │  ┌────────▼────────────────────▼──────────────────────┐    │   │
+  │   │  │                   Pipeline App                      │    │   │
+  │   │  │               (CrewAI + Python)                     │    │   │
+  │   │  │   app/Dockerfile                                     │    │   │
+  │   │  │                                                      │    │   │
+  │   │  │  ┌───────────────┐    ┌─────────────────────────┐   │    │   │
+  │   │  │  │ Polling Loop  │    │  PDF Indexer (one-off)   │   │    │   │
+  │   │  │  │  main.py      │    │  scripts/index-pdfs.sh   │   │    │   │
+  │   │  │  └──────┬────────┘    └─────────────────────────┘   │    │   │
+  │   │  │         │                                             │    │   │
+  │   │  │  ┌──────▼────────────────────────────────────────┐   │    │   │
+  │   │  │  │             CrewAI Support Crew                │   │    │   │
+  │   │  │  │                                                │   │    │   │
+  │   │  │  │  Agent 1        Agent 2            Agent 3    │   │    │   │
+  │   │  │  │  Ticket      ─► Knowledge      ─►  Response   │   │    │   │
+  │   │  │  │  Analyzer       Retriever          Writer     │   │    │   │
+  │   │  │  └──────────────────────┬─────────────────────────┘   │    │   │
+  │   │  └─────────────────────────│─────────────────────────────┘    │   │
+  │   └─────────────────────────────│──────────────────────────────────┘   │
+  │                                 │ host.docker.internal:11434            │
+  │                    ┌────────────▼─────────────┐                        │
+  │                    │   Ollama  (native Mac)    │                        │
+  │                    │   ollama serve  :11434    │                        │
+  │                    │                           │                        │
+  │                    │   llama3.2:latest  (LLM)  │                        │
+  │                    │   nomic-embed-text (embed)│                        │
+  │                    │   Metal GPU (Apple Silicon│                        │
+  │                    └───────────────────────────┘                        │
+  └──────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -85,7 +103,7 @@ For each PDF:
     │   POST /api/embeddings {model: nomic-embed-text}
     │   → float[768]
     │
-    └─► Upsert to Pinecone Local
+    └─► Upsert to PineconeDB
         {id: "filename_page_chunk", values: [...], metadata: {source, page, text}}
 ```
 
@@ -119,24 +137,36 @@ support_crew.py — kickoff CrewAI
     │       3. Return chunks with source filenames
     │     Output: list of {text, source_file, page}
     │
-    └─► Task 3: Response Writer
+    └─► Task 3: Response Writer — Phanes
           Tool: JiraCommentTool
           Input: ticket summary + retrieved context
           Process:
-            1. Prompt Ollama LLM with context
-            2. Draft professional first-response comment
-            3. Include PDF citations
-            4. Post comment to Jira ticket
+            1. Prompt Ollama LLM with full agent backstory (persona prompt)
+            2. Draft response in the voice of Phanes (Stoic philosopher tone)
+            3. Include PDF citations, step-by-step guidance, source references
+            4. Post comment to Jira ticket as the `phanes` bot user
           Output: posted comment (confirmation)
+
+          Agent identity is defined in app/agents/response_writer.py:
+            role        → "Phanes, Oracle of the Opsis Support Temple"
+            backstory   → Full Stoic character prompt with philosopher quotes
+                          and a few-shot example response
+            goal        → Warm, cited, 200–350 words, signed "— Phanes"
+            temperature → 0.6  (higher than other agents for creative voice)
+
+          The backstory is the most influential parameter — it functions as
+          a persistent system-level character prompt injected into every LLM
+          call the agent makes. Swapping the backstory changes the entire
+          voice of every generated response without touching any other code.
 ```
 
 ---
 
 ## Design Decisions
 
-### Why Pinecone Local instead of Chroma/Qdrant?
+### Why PineconeDB instead of Chroma/Qdrant?
 
-Pinecone Local is Pinecone's official local development server. It uses the **exact same API** as Pinecone Cloud, meaning this MVP can be moved to cloud Pinecone with zero code changes — just swap `PINECONE_HOST` to the cloud endpoint.
+PineconeDB is Pinecone's official local development server. It uses the **exact same API** as Pinecone Cloud, meaning this MVP can be moved to cloud Pinecone with zero code changes — just swap `PINECONE_HOST` to the cloud endpoint.
 
 ### Why Ollama for both LLM and embeddings?
 
@@ -145,6 +175,18 @@ Keeps everything local and avoids any API costs or rate limits. `nomic-embed-tex
 ### Why CrewAI?
 
 CrewAI makes it easy to decompose the pipeline into clear agent responsibilities. Each agent has a single job, making the system easy to debug and extend (e.g., adding a "ticket classifier" agent or a "human escalation" agent later).
+
+### Response Writer Persona System
+
+The Response Writer agent's output is shaped entirely by its `role`, `goal`, `backstory`, and `temperature` fields — no fine-tuning or model changes required. The current persona is **Phanes**, a Stoic philosopher, defined in `app/agents/response_writer.py`.
+
+The `backstory` field functions as a persistent system-level character prompt. It is injected into every LLM call the agent makes, shaping vocabulary, sentence structure, tone, and sign-off. The backstory for Phanes includes:
+- Character origin (Greek deity of light, root of "opsis")
+- Philosophical tradition (Marcus Aurelius, Epictetus, Seneca with specific quotes)
+- An explicit note that Stoics are *warm*, not cold
+- A full few-shot example response showing exactly the target tone and structure
+
+**Reporter-identity routing (future):** Because each agent persona is just a Python function returning an `Agent` object, different personas can be dispatched based on who filed the ticket. The ticket's `reporter` field (fetched in Task 1) can drive which `make_*_agent()` function is called in Task 3 — a VIP customer gets Phanes, an internal engineer gets a terse senior-engineer voice, a first-time user gets a friendly intern. See [`docs/future-steps.md`](../future-steps/) for the full multi-agent roadmap and [`docs/custom_response_agent_context.md`](../custom-llm-agent-context/) for the persona design reference.
 
 ### Why poll instead of webhooks?
 
@@ -166,6 +208,8 @@ CrewAI is built on LangChain but provides a higher-level abstraction (agents wit
 | Webhooks instead of polling | Replace polling loop in `main.py` with FastAPI webhook endpoint |
 | Better LLM | Swap model name in `.env` — any Ollama model works |
 | Slack notification | Add a Slack tool that notifies the team when auto-response is posted |
+| Different response personas | Add more agent definitions to `agents/`, route by reporter identity or ticket priority |
+| Multi-agent ticket threads | Dispatch Iris (fast refs) → Phanes (deep dive) → Theron (escalation) on the same ticket over time |
 
 ---
 
@@ -176,5 +220,5 @@ CrewAI is built on LangChain but provides a higher-level abstraction (agents wit
 | `8080` | Jira Web UI | Main ticket interface |
 | `5432` | Jira Postgres | Internal, not exposed |
 | `8081` | WebDAV | Upload/browse PDFs here |
-| `5080` | Pinecone Local | Vector DB REST API |
+| `5080` | PineconeDB | Vector DB REST API |
 | `11434` | Ollama | LLM + embedding inference |

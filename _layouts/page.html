@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<article class="page">
+<article class="page{% if page.url contains '/projects/opsis/docs/' %} page-docs{% endif %}">
   <div class="container">
     {% unless page.hide_page_header %}
     <header class="page-header">

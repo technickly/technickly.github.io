@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Pinecone Local Issues
+title: PineconeDB Issues
 permalink: /projects/opsis/docs/pinecone-local-issues/
 ---
 
 > Imported from `docs/pinecone-local-issues.md`
 
-# Pinecone Local — Known Issues & Fixes
+# PineconeDB — Known Issues & Fixes
 
 A running log of every issue hit when using `ghcr.io/pinecone-io/pinecone-local:latest`
 with the Pinecone Python SDK v5 (`pinecone==5.4.2`) in a Docker Compose environment
@@ -59,7 +59,7 @@ cloud provider values before the request even leaves the process.
 
 **Fix**
 Bypass the SDK for index creation entirely — use `httpx` to POST directly to the
-Pinecone Local REST API. Pass a valid-looking but dummy `cloud`/`region` — the
+PineconeDB REST API. Pass a valid-looking but dummy `cloud`/`region` — the
 local server accepts these fields but ignores them at runtime:
 
 ```python
@@ -110,7 +110,7 @@ httpx.HTTPStatusError: 404 Not Found for url 'http://pinecone-local:5080/vectors
 ```
 
 **Cause**
-Pinecone Local runs each index's **data plane on a separate port** from the control plane:
+PineconeDB runs each index's **data plane on a separate port** from the control plane:
 
 | Plane         | Port |
 |---------------|------|
@@ -151,7 +151,7 @@ httpx.post(f"{data_host}/vectors/upsert", json={"vectors": [...], "namespace": "
 
 ---
 
-## Summary — What works for Pinecone Local + Docker
+## Summary — What works for PineconeDB + Docker
 
 | Operation       | Use SDK? | Method                              |
 |-----------------|----------|-------------------------------------|
@@ -162,12 +162,12 @@ httpx.post(f"{data_host}/vectors/upsert", json={"vectors": [...], "namespace": "
 | Query vectors   |        | `POST /query` via httpx to data-plane host |
 
 **TL;DR:** The Pinecone Python SDK v5 is built for Pinecone Cloud and is not
-compatible with Pinecone Local in a Docker environment. Use `httpx` for all
+compatible with PineconeDB in a Docker environment. Use `httpx` for all
 Pinecone operations and store the resolved data-plane host after index creation.
 
 ---
 
-## Pinecone Local Port Reference
+## PineconeDB Port Reference
 
 ```
 Control plane:  http://localhost:5080          (from Mac host)

@@ -24,7 +24,7 @@ permalink: /projects/opsis/docs/relevant-files/
 
 - `app/main.py` - polling loop and orchestration entry point
 - `app/crew/support_crew.py` - crew and task orchestration
-- `app/tools/rag_tool.py` - retrieval helper over Pinecone Local
+- `app/tools/rag_tool.py` - retrieval helper over PineconeDB
 - `app/tools/webdav_tool.py` - WebDAV list/download operations
 - `app/tools/jira_tool.py` - Jira fetch/post integration
 
@@ -32,5 +32,5 @@ permalink: /projects/opsis/docs/relevant-files/
 
 - `docker-compose.yml` - local service composition
 - `docker/webdav/README.md` - WebDAV + FileBrowser setup and usage
-- `docker/pinecone/README.md` - Pinecone Local setup notes
+- `docker/pinecone/README.md` - PineconeDB setup notes
 - `docs/pinecone-local-issues.md` - known issues and local workarounds

@@ -1,10 +1,8 @@
 ---
 layout: page
 title: Projects
-description: Opsis and RoleSmith project pages with markdown docs
+description: Explore the different type of AI projects
 ---
-
-# Projects
 
 {% assign sorted_projects = site.projects | sort: 'title' %}
 
@@ -25,8 +23,7 @@ description: Opsis and RoleSmith project pages with markdown docs
     {% endif %}
 
     <p>
-      <a href="{{ project.url | relative_url }}">Open project page</a>
-      {% if project.docs_url %}<span aria-hidden="true"> • </span><a href="{{ project.docs_url | relative_url }}">View Project Documents</a>{% endif %}
+      <a class="btn btn-project" href="{{ project.url | relative_url }}">Go to Project</a>
     </p>
   </div>
   {% endfor %}

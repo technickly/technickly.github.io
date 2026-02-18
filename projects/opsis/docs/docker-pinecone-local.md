@@ -1,14 +1,14 @@
 ---
 layout: page
-title: Pinecone Local Docker Setup
+title: PineconeDB Docker Setup
 permalink: /projects/opsis/docs/docker-pinecone-local/
 ---
 
 > Imported from `docker/pinecone/README.md`
 
-#  Pinecone Local Setup
+#  PineconeDB Setup
 
-Pinecone Local is Pinecone's official local development server. It exposes the **exact same REST API** as Pinecone Cloud — meaning you can move to cloud Pinecone later with zero code changes.
+PineconeDB is Pinecone's official local development server. It exposes the **exact same REST API** as Pinecone Cloud — meaning you can move to cloud Pinecone later with zero code changes.
 
 ## Container
 

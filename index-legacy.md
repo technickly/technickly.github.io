@@ -24,7 +24,7 @@ title: Home
 <div class="features-grid">
   <div class="feature-card">
     <h3>Opsis (Active)</h3>
-    <p>Local Jira + WebDAV + RAG automation using CrewAI, Ollama, and Pinecone Local.</p>
+    <p>Local Jira + WebDAV + RAG automation using CrewAI, Ollama, and PineconeDB.</p>
     <p><a href="{{ '/projects/opsis/' | relative_url }}">Project page</a> • <a href="{{ '/projects/opsis/docs/' | relative_url }}">Docs index</a></p>
   </div>
 

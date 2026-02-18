@@ -12,6 +12,11 @@
   --accent: #40e0d0;
   --brand-blue: #3b82f6;
   --accent-third: #f5b84c;
+  --link: #0b63ce;
+  --link-hover: #084a9b;
+  --link-visited: #6b46c1;
+  --inline-code-bg: #fff1cc;
+  --inline-code-ink: #7a3b00;
 
   --border: #a09a9d;
   --shadow: 0 10px 30px rgba(72, 67, 73, 0.15);
@@ -185,6 +190,17 @@ h3 {
   border-color: var(--brand);
 }
 
+.btn-project {
+  background: linear-gradient(135deg, #2f6ed8 0%, #12807e 100%);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(23, 160, 158, 0.24);
+}
+
+.btn-project:hover {
+  color: #fff;
+  background: linear-gradient(135deg, #275fbe 0%, #0f6a69 100%);
+}
+
 .btn-outline {
   border-color: var(--brand);
   color: var(--brand-deep);
@@ -295,6 +311,15 @@ h3 {
   max-width: 840px;
   margin: 0 auto;
   padding-bottom: 3rem;
+}
+
+.page-docs .page-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.3rem 1.25rem 2rem;
+  margin-top: 1rem;
 }
 
 .page-content h2 {
@@ -418,8 +443,9 @@ h3 {
 code {
   font-family: var(--font-mono);
   font-size: 0.88em;
-  background: rgba(64, 224, 208, 0.18);
-  color: #0f5f5e;
+  background: var(--inline-code-bg);
+  color: var(--inline-code-ink);
+  border: 1px solid rgba(122, 59, 0, 0.2);
   padding: 0.16em 0.35em;
   border-radius: 6px;
 }
@@ -497,6 +523,38 @@ th {
 .page-content li {
   margin: 0.35rem 0;
   color: var(--ink-soft);
+}
+
+.project-content a,
+.page-content a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
+}
+
+.project-content a:visited,
+.page-content a:visited {
+  color: var(--link-visited);
+}
+
+.project-content a:hover,
+.page-content a:hover {
+  color: var(--link-hover);
+}
+
+.project-content a.btn,
+.page-content a.btn {
+  text-decoration: none;
+}
+
+.project-content a.btn-project,
+.project-content a.btn-project:visited,
+.project-content a.btn-project:hover,
+.page-content a.btn-project,
+.page-content a.btn-project:visited,
+.page-content a.btn-project:hover {
+  color: #fff;
 }
 
 .footer {

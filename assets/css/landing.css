@@ -1,6 +1,10 @@
 .tl-body {
   margin: 0;
-  background: #f7f0f0;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(64, 224, 208, 0.16), transparent 34%),
+    radial-gradient(circle at 22% 28%, rgba(59, 130, 246, 0.11), transparent 30%),
+    radial-gradient(circle at 92% 24%, rgba(23, 160, 158, 0.14), transparent 38%),
+    #f7f0f0;
 }
 
 .tl-page {
@@ -20,11 +24,7 @@
   min-height: 100vh;
   color: var(--tl-text);
   font-family: 'Sora', 'Avenir Next', 'Trebuchet MS', sans-serif;
-  background:
-    radial-gradient(circle at 8% 0%, rgba(64, 224, 208, 0.16), transparent 34%),
-    radial-gradient(circle at 22% 28%, rgba(59, 130, 246, 0.11), transparent 30%),
-    radial-gradient(circle at 92% 24%, rgba(23, 160, 158, 0.14), transparent 38%),
-    var(--tl-bg);
+  background: transparent;
 }
 
 .tl-page *,
@@ -140,15 +140,18 @@
   display: block;
   border-radius: var(--tl-radius);
   overflow: hidden;
-  border: 1px solid var(--tl-border);
-  background: var(--tl-surface);
-  box-shadow: var(--tl-shadow);
+  border: 1px solid rgba(24, 128, 126, 0.28);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 14px 34px rgba(72, 67, 73, 0.14);
 }
 
 .tl-hero-left {
   width: 100%;
   padding: clamp(0.85rem, 2vw, 1.35rem);
-  background: #ffffff;
+  background:
+    radial-gradient(circle at 18% -20%, rgba(64, 224, 208, 0.12), transparent 44%),
+    radial-gradient(circle at 88% 18%, rgba(59, 130, 246, 0.1), transparent 34%),
+    #ffffff;
   text-align: center;
 }
 
@@ -161,6 +164,16 @@
   margin-inline: auto;
   color: var(--tl-text);
   white-space: nowrap;
+}
+
+.tl-emph-local {
+  color: var(--tl-text);
+  font-weight: 800;
+}
+
+.tl-emph-safe {
+  color: var(--tl-text);
+  font-weight: 800;
 }
 
 .tl-hero-subtitle {
@@ -208,15 +221,26 @@
 }
 
 .tl-btn-primary {
-  background: linear-gradient(135deg, var(--tl-accent-blue) 0%, var(--tl-accent) 65%, var(--tl-accent-2) 100%);
+  background: linear-gradient(135deg, #2f6ed8 0%, #12807e 100%);
   color: #ffffff;
-  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.22);
+  box-shadow: 0 8px 18px rgba(23, 160, 158, 0.24);
 }
 
 .tl-btn-secondary {
   background: var(--tl-surface);
   color: var(--tl-text);
   border-color: var(--tl-border);
+}
+
+.tl-btn-project {
+  background: linear-gradient(135deg, #2f6ed8 0%, #12807e 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(23, 160, 158, 0.24);
+}
+
+.tl-btn-project:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #275fbe 0%, #0f6a69 100%);
 }
 
 .tl-btn.tl-btn-primary,
@@ -229,6 +253,12 @@
 .tl-btn.tl-btn-secondary:hover,
 .tl-btn.tl-btn-secondary:visited {
   color: var(--tl-text);
+}
+
+.tl-btn.tl-btn-project,
+.tl-btn.tl-btn-project:hover,
+.tl-btn.tl-btn-project:visited {
+  color: #ffffff;
 }
 
 .tl-focus {
@@ -263,6 +293,13 @@
   border-radius: var(--tl-radius);
   box-shadow: 0 10px 24px rgba(72, 67, 73, 0.08);
   padding: 1rem 1.05rem;
+  transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+}
+
+.tl-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(24, 128, 126, 0.42);
+  box-shadow: 0 16px 30px rgba(72, 67, 73, 0.14);
 }
 
 .tl-card-title {
@@ -287,6 +324,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
+}
+
+.tl-card-links-center {
+  justify-content: center;
 }
 
 .tl-badge {

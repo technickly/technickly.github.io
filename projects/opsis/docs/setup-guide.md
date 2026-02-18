@@ -165,7 +165,7 @@ Drag any documentation PDFs into FileBrowser at http://localhost:8082.
 
 ## Step 7 — Index PDFs into Pinecone
 
-Reads all PDFs from WebDAV → chunks text → embeds via Ollama → stores in Pinecone Local.
+Reads all PDFs from WebDAV → chunks text → embeds via Ollama → stores in PineconeDB.
 
 ```bash
 bash scripts/index-pdfs.sh

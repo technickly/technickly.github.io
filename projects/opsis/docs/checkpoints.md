@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Opsis Checkpoints
+title: Opsis Setup Checkpoints
 permalink: /projects/opsis/docs/checkpoints/
 ---
 
@@ -51,7 +51,7 @@ Track your progress. Check off each item as you verify it.
 - [ ] Login with `admin` / `admin` works
 - [ ] Can see and upload files via the UI
 
-### 1.7 Pinecone Local
+### 1.7 PineconeDB
 - [ ] `docker compose up -d pinecone-local` runs without error
 - [ ] `curl http://localhost:5080/indexes` returns `{"indexes": []}`
 
@@ -84,6 +84,20 @@ Track your progress. Check off each item as you verify it.
 - [ ] Pipeline log shows `Posted comment to SUP-XX ✓`
 - [ ] Jira ticket has AI-generated comment with PDF citation
 
+### 3.3 Response Persona (Phanes)
+- [ ] Comment is posted by the `phanes` Jira bot user (not the admin account)
+- [ ] Comment opens with a philosophical observation or framing sentence
+- [ ] Response cites at least one source as `*(filename.pdf, p. N)*`
+- [ ] Response is signed `— Phanes, Opsis Support`
+- [ ] Ticket is labelled `auto-responded` after comment is posted
+- [ ] Re-running the pipeline does NOT post a duplicate comment on the same ticket
+
+> **Tuning the response voice:** Edit `app/agents/response_writer.py` — the `backstory` field
+> is the primary lever. `temperature` controls creativity (0.6 = philosophical, 0.3 = generic).
+> No rebuild required — the app folder is volume-mounted; restart the container to apply changes.
+> See [`docs/custom_response_agent_context.md`](../custom-llm-agent-context/) for full
+> parameter reference and before/after response examples.
+
 ---
 
 ## Phase 4 — Validation
@@ -104,7 +118,7 @@ Track your progress. Check off each item as you verify it.
 | 1.4 Jira |  Complete |
 | 1.5 WebDAV |  Complete |
 | 1.6 FileBrowser |  In progress |
-| 1.7 Pinecone Local |  Complete |
+| 1.7 PineconeDB |  Complete |
 | 2 Knowledge Base |  Not started |
 | 3 Pipeline |  Not started |
 | 4 Validation |  Not started |
