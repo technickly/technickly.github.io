@@ -33,4 +33,3 @@ hide_page_header: true
 - [Custom LLM Agent Model (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent/' | relative_url }})
 - [Custom LLM Agent Context (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent-context/' | relative_url }})
 - [Future Steps]({{ '/projects/opsis/docs/future-steps/' | relative_url }})
-- [PineconeDB Issues]({{ '/projects/opsis/docs/pinecone-local-issues/' | relative_url }})

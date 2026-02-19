@@ -82,7 +82,7 @@ This gives a controlled environment for validating retrieval quality, model beha
 3. Embeddings are produced with Ollama.
 4. Vectors and metadata are stored in PineconeDB.
 
-Read more: [Generate Synthetic PDFs]({{ '/projects/opsis/docs/generate-synthetic-pdfs/' | relative_url }}), [PDF Chunking, Embedding, and Indexing]({{ '/projects/opsis/docs/pdf-indexing-explainer/' | relative_url }}), [PineconeDB Issues]({{ '/projects/opsis/docs/pinecone-local-issues/' | relative_url }}).
+Read more: [Generate Synthetic PDFs]({{ '/projects/opsis/docs/generate-synthetic-pdfs/' | relative_url }}), [PDF Chunking, Embedding, and Indexing]({{ '/projects/opsis/docs/pdf-indexing-explainer/' | relative_url }}).
 
 ### Response Path
 
@@ -108,6 +108,11 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 - Docker network `mvp-net` contains Jira (`:8080`) with Postgres (`:5432`), WebDAV (`:8081`), FileBrowser (`:8082`), PineconeDB control (`:5080`) and data plane (`:5081`), and the Pipeline app container.
 - WebDAV and FileBrowser share the same document volume for upload + ingestion workflow continuity.
 
+### Data Flow Details
+
+- Indexing flow: list PDFs from WebDAV -> download to cache -> extract text by page -> chunk (`512` tokens, `64` overlap) -> embed with `nomic-embed-text` -> upsert vectors + metadata (`source`, `page`, `text`).
+- Response flow: Jira JQL polling (`statusCategory != Done` and empty comment) -> ticket analysis -> embedding + retrieval (`top-6`) -> cited response draft (persona shaped by response-agent parameters) -> Jira bot comment post.
+
 ### Pipeline App Breakdown
 
 - `app/main.py`: continuous polling loop (`POLL_INTERVAL_SECONDS`) for unresponded Jira tickets.
@@ -115,11 +120,6 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 - `app/indexer/pdf_indexer.py`: one-off/on-demand indexing path used by `scripts/index-pdfs.sh`.
 - `app/tools/jira_tool.py`: fetches ticket context and posts final response comments.
 - `app/tools/rag_tool.py` + `app/tools/embeddings.py`: query embedding + top-k retrieval from PineconeDB.
-
-### Data Flow Details
-
-- Indexing flow: list PDFs from WebDAV -> download to cache -> extract text by page -> chunk (`512` tokens, `64` overlap) -> embed with `nomic-embed-text` -> upsert vectors + metadata (`source`, `page`, `text`).
-- Response flow: Jira JQL polling (`statusCategory != Done` and empty comment) -> ticket analysis -> embedding + retrieval (`top-6`) -> cited response draft (persona shaped by response-agent parameters) -> Jira bot comment post.
 
 Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relative_url }}), [Opsis Relevant Files]({{ '/projects/opsis/docs/relevant-files/' | relative_url }}), and [Opsis Code Snippets]({{ '/projects/opsis/docs/snippets/' | relative_url }}).
 
