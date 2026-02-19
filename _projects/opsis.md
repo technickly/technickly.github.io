@@ -1,7 +1,7 @@
 ---
 layout: project
 title: Opsis
-tagline: Opsis (ὄψις), from ὁράω — “to see,” is a containerized local AI Jira ticket first responder that answers using retrieved relevant stored information from internal servers, not hallucinated guesses.
+tagline: Opsis (ὄψις), from ὁράω — “to see,” is a containerized local AI Jira ticket first responder that uses a RAG workflow to answer from relevant internal knowledge, not hallucinated guesses.
 tech_stack:
   - CrewAI
   - Ollama
@@ -11,16 +11,6 @@ tech_stack:
   - Docker
 github_url: https://github.com/yourusername/opsis
 docs_url: /projects/opsis/docs/
----
-
-## Overview
-
-Opsis is a local-first AI support operations project for teams that want grounded Jira responses without relying on cloud LLM infrastructure.
-
-It runs end-to-end on one machine and simulates a production-style support workflow: documents are ingested, indexed, retrieved, and cited in ticket responses.
-
-Installation & Setup Docs: [Opsis docs hub]({{ '/projects/opsis/docs/' | relative_url }}).
-
 ---
 
 ## Walkthrough Demo
@@ -56,6 +46,16 @@ See the full run in: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '
 </div>
 
 Supporting references: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relative_url }}), and [Opsis Setup Checkpoints]({{ '/projects/opsis/docs/checkpoints/' | relative_url }}).
+
+---
+
+## Overview
+
+Opsis is a local-first AI support operations project for teams that want grounded Jira responses without relying on cloud LLM infrastructure.
+
+It runs end-to-end on one machine and simulates a production-style support workflow: documents are ingested, indexed, retrieved, and cited in ticket responses.
+
+Installation & Setup Docs: [Opsis docs hub]({{ '/projects/opsis/docs/' | relative_url }}).
 
 ---
 

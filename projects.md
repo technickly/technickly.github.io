@@ -12,7 +12,7 @@ permalink: /projects/
   <div class="feature-card">
     <h3>{% if project.icon %}{{ project.icon }} {% endif %}{{ project.title }}</h3>
     {% if project.title == "Opsis" %}
-    <p>Opsis is a containerized local AI Jira ticket first responder that answers using retrieved relevant stored information from internal servers, not hallucinated guesses.</p>
+    <p>Opsis is a containerized local AI Jira ticket first responder that uses a RAG workflow to answer from relevant internal knowledge, not hallucinated guesses.</p>
     {% elsif project.tagline %}
     <p>{{ project.tagline }}</p>
     {% endif %}
