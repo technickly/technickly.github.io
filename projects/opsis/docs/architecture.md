@@ -168,6 +168,19 @@ support_crew.py — kickoff CrewAI
 
 PineconeDB is Pinecone's official local development server. It uses the **exact same API** as Pinecone Cloud, meaning this MVP can be moved to cloud Pinecone with zero code changes — just swap `PINECONE_HOST` to the cloud endpoint.
 
+**Important limitation — no persistence:** PineconeDB is in-memory only. Every container restart wipes all vectors. There is no environment variable or volume mount that enables persistence (the `pinecone-data` volume in `docker-compose.yml` has no effect).
+
+The pipeline handles this automatically via `ensure_index_populated()` in `main.py`, which runs on every boot, checks the vector count, and re-runs the PDF indexer if the index is empty. This is controlled by the `AUTO_REINDEX_ON_STARTUP` setting (default: `true`).
+
+To disable auto-reindex and manage it manually:
+```
+# .env
+AUTO_REINDEX_ON_STARTUP=false
+
+# Then run manually:
+docker compose exec pipeline python -m indexer.pdf_indexer
+```
+
 ### Why Ollama for both LLM and embeddings?
 
 Keeps everything local and avoids any API costs or rate limits. `nomic-embed-text` produces 768-dimensional embeddings with excellent retrieval quality for technical documents.
@@ -204,7 +217,8 @@ CrewAI is built on LangChain but provides a higher-level abstraction (agents wit
 |---|---|
 | More agents | Add a "Ticket Classifier" or "Escalation Decider" agent to `agents/` |
 | More knowledge sources | Extend `PDFIndexer` to ingest Confluence pages or Notion docs |
-| Cloud Pinecone | Change `PINECONE_HOST` to your Pinecone cloud endpoint |
+| Cloud Pinecone | Change `PINECONE_HOST` to your Pinecone cloud endpoint — zero code changes needed |
+| Persistent local vectors | Swap PineconeDB for Qdrant (`qdrant/qdrant` Docker image has full disk persistence, same REST API shape) |
 | Webhooks instead of polling | Replace polling loop in `main.py` with FastAPI webhook endpoint |
 | Better LLM | Swap model name in `.env` — any Ollama model works |
 | Slack notification | Add a Slack tool that notifies the team when auto-response is posted |

@@ -64,9 +64,15 @@ Track your progress. Check off each item as you verify it.
 - [ ] PDF(s) visible in FileBrowser at http://localhost:8082
 
 ### 2.2 Indexing
-- [ ] `bash scripts/index-pdfs.sh` runs without errors
+- [ ] `docker compose exec pipeline python -m indexer.pdf_indexer` runs without errors
 - [ ] `curl http://localhost:5080/indexes` shows `ticket-knowledge` index
-- [ ] `total_vector_count` is greater than 0
+- [ ] `curl http://localhost:5081/describe_index_stats` shows `totalVectorCount > 0`
+
+> **Auto-reindex on startup:** The pipeline checks Pinecone on every boot and
+> re-indexes automatically if the index is empty. PineconeDB is in-memory only —
+> every container restart wipes vectors. You no longer need to run the indexer
+> manually after a restart.
+> To disable: set `AUTO_REINDEX_ON_STARTUP=false` in `.env`.
 
 ---
 
@@ -104,7 +110,14 @@ Track your progress. Check off each item as you verify it.
 - [ ] Comment references at least one PDF filename
 - [ ] Response is coherent and relevant to the ticket
 - [ ] Pipeline continues polling after first successful response
-- [ ] `docker compose down && docker compose up -d` restarts cleanly with data intact
+- [ ] `docker compose restart pipeline` — startup log shows `✓ Pinecone index ready` or auto-indexes
+- [ ] `docker compose down && docker compose up -d` — pipeline re-indexes automatically on next boot
+
+> **Note on Pinecone persistence:** PineconeDB is in-memory only. Restarting the
+> `pinecone-local` container always wipes all vectors. The pipeline handles this
+> automatically via `ensure_index_populated()` at startup (controlled by
+> `AUTO_REINDEX_ON_STARTUP` in `.env`). Jira data and WebDAV PDFs are unaffected —
+> they use proper named volumes (`jira-data`, `webdav-data`).
 
 ---
 

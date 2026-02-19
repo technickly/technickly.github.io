@@ -23,6 +23,42 @@ Installation & Setup Docs: [Opsis docs hub]({{ '/projects/opsis/docs/' | relativ
 
 ---
 
+## Walkthrough Demo
+
+See the full run in: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}).
+
+1. Input: Jira user creates a support ticket with issue context.
+2. Pipeline: Python app polls Jira, runs RAG retrieval, and executes CrewAI agents.
+3. Output: Response agent (Phanes) posts a cited first response back to the Jira ticket.
+
+<div class="opsis-walk-grid">
+  <a class="opsis-walk-card" href="{{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}">
+    <img src="{{ '/projects/opsis/docs/screenshots/step1b_ticket_created.png' | relative_url }}" alt="Input ticket created in Jira">
+    <div class="opsis-walk-body">
+      <h4>Input</h4>
+      <p>User creates a Jira support ticket with summary, description, and priority.</p>
+    </div>
+  </a>
+  <a class="opsis-walk-card" href="{{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}">
+    <img src="{{ '/projects/opsis/docs/screenshots/step2_pipeline_detection.png' | relative_url }}" alt="Pipeline detects new Jira ticket">
+    <div class="opsis-walk-body">
+      <h4>Pipeline</h4>
+      <p>Python polling + retrieval + CrewAI agents analyze the ticket with local RAG context.</p>
+    </div>
+  </a>
+  <a class="opsis-walk-card" href="{{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}">
+    <img src="{{ '/projects/opsis/docs/screenshots/step9_jira_final.png' | relative_url }}" alt="Final Jira comment posted by Phanes">
+    <div class="opsis-walk-body">
+      <h4>Output</h4>
+      <p>Phanes posts a grounded first response back to Jira and applies auto-responded label.</p>
+    </div>
+  </a>
+</div>
+
+Supporting references: [RAG Pipeline Problems and Debug Log]({{ '/projects/opsis/docs/rag-pipeline-problems/' | relative_url }}), [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relative_url }}), and [Opsis Setup Checkpoints]({{ '/projects/opsis/docs/checkpoints/' | relative_url }}).
+
+---
+
 ## Why It Exists
 
 Most support automation demos skip realistic data lifecycle and observability. Opsis is designed to test the full loop under practical conditions:
@@ -76,29 +112,22 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 
 ```text
 Mac Host
-┌──────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│  Docker Network: mvp-net                                             │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │ Jira :8080 + PG :5432   WebDAV :8081 + FileBrowser :8082      │  │
-│  │ PineconeDB ctrl :5080 / data :5081                             │  │
-│  │                                                                │  │
-│  │ Pipeline App (CrewAI + Python)                                 │  │
-│  │ ┌──────────────┐  ┌────────────────┐  ┌───────────────┐        │  │
-│  │ │ Ticket       │->│ Knowledge      │->│ Response      │        │  │
-│  │ │ Analyzer     │  │ Retriever      │  │ Writer        │        │  │
-│  │ └──────────────┘  └────────────────┘  └───────────────┘        │  │
-│  │      ^                        |                                  │  │
-│  │      |                        v                                  │  │
-│  │  main.py poll loop    PDF Indexer (one-off)                     │  │
-│  │                      scripts/index-pdfs.sh                       │  │
-│  └────────────────────────────────────────────────────────────────┘  │
-│                                |                                     │
-│                                | host.docker.internal                │
-│                                v                                     │
-│                       Ollama (native) :11434                         │
-│                       llama3.2 + nomic-embed                         │
-└──────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ Docker network: mvp-net                                     │
+│                                                              │
+│ Services                                                     │
+│ - Jira (:8080) + Postgres (:5432)                           │
+│ - WebDAV (:8081) + FileBrowser (:8082)                      │
+│ - PineconeDB control (:5080), data (:5081)                  │
+│                                                              │
+│ Pipeline App (CrewAI + Python)                              │
+│ Ticket Analyzer -> Knowledge Retriever -> Response Writer    │
+│ main.py poll loop -> PDF Indexer (scripts/index-pdfs.sh)    │
+│                                                              │
+│ Host bridge                                                  │
+│ mvp-net -> host.docker.internal -> Ollama (:11434)          │
+│ Model runtime: llama3.2 + nomic-embed                       │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Pipeline App Breakdown
@@ -120,6 +149,7 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 
 ## Deep Dives
 
+- End-to-end walkthrough: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}), [RAG Pipeline Problems and Debug Log]({{ '/projects/opsis/docs/rag-pipeline-problems/' | relative_url }}).
 - Project overview and file map: [Opsis MVP README]({{ '/projects/opsis/docs/readme/' | relative_url }}).
 - Installation & Setup Docs: [Opsis Setup Guide]({{ '/projects/opsis/docs/setup-guide/' | relative_url }}), [Jira Docker Setup]({{ '/projects/opsis/docs/docker-jira/' | relative_url }}), [WebDAV and FileBrowser Setup]({{ '/projects/opsis/docs/docker-webdav-filebrowser/' | relative_url }}), [PineconeDB Docker Setup]({{ '/projects/opsis/docs/docker-pinecone-local/' | relative_url }}), [Ollama Setup Notes]({{ '/projects/opsis/docs/docker-ollama/' | relative_url }}).
 - Model and retrieval research: [Ollama Embedding Research]({{ '/projects/opsis/docs/ollama-embedding-research/' | relative_url }}), [Ollama Model Research]({{ '/projects/opsis/docs/ollama-models-research/' | relative_url }}), [Custom LLM Agent Model (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent/' | relative_url }}), [Custom LLM Agent Context (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent-context/' | relative_url }}), [Future Implementation and TODOs]({{ '/projects/opsis/docs/future-implementation-todos/' | relative_url }}), [Future Steps]({{ '/projects/opsis/docs/future-steps/' | relative_url }}), and [Ollama API Test Commands]({{ '/projects/opsis/docs/ollama-test-api/' | relative_url }}).

@@ -11,6 +11,11 @@ hide_page_header: true
 - [Setup Guide]({{ '/projects/opsis/docs/setup-guide/' | relative_url }})
 - [Setup Checkpoints]({{ '/projects/opsis/docs/checkpoints/' | relative_url }})
 
+## Walkthrough and Demo
+
+- [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }})
+- [RAG Pipeline Problems and Debug Log]({{ '/projects/opsis/docs/rag-pipeline-problems/' | relative_url }})
+
 ## PDF Data Workflow
 
 - [Generate Synthetic PDFs]({{ '/projects/opsis/docs/generate-synthetic-pdfs/' | relative_url }})
