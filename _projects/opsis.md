@@ -1,7 +1,7 @@
 ---
 layout: project
 title: Opsis
-tagline: Opsis (ὄψις), from ὁράω — “to see,” is a containerized local AI Jira ticket first responder that answers with retrieved context, not hallucinated guesses.
+tagline: Opsis (ὄψις), from ὁράω — “to see,” is a containerized local AI Jira ticket first responder that answers using retrieved relevant stored information from internal servers, not hallucinated guesses.
 tech_stack:
   - CrewAI
   - Ollama
@@ -55,7 +55,7 @@ See the full run in: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '
   </a>
 </div>
 
-Supporting references: [RAG Pipeline Problems and Debug Log]({{ '/projects/opsis/docs/rag-pipeline-problems/' | relative_url }}), [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relative_url }}), and [Opsis Setup Checkpoints]({{ '/projects/opsis/docs/checkpoints/' | relative_url }}).
+Supporting references: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relative_url }}), and [Opsis Setup Checkpoints]({{ '/projects/opsis/docs/checkpoints/' | relative_url }}).
 
 ---
 
@@ -149,7 +149,7 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 
 ## Deep Dives
 
-- End-to-end walkthrough: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}), [RAG Pipeline Problems and Debug Log]({{ '/projects/opsis/docs/rag-pipeline-problems/' | relative_url }}).
+- End-to-end walkthrough: [Opsis Demo Walkthrough (Input -> Pipeline -> Output)]({{ '/projects/opsis/docs/demo-walkthrough/' | relative_url }}).
 - Project overview and file map: [Opsis MVP README]({{ '/projects/opsis/docs/readme/' | relative_url }}).
 - Installation & Setup Docs: [Opsis Setup Guide]({{ '/projects/opsis/docs/setup-guide/' | relative_url }}), [Jira Docker Setup]({{ '/projects/opsis/docs/docker-jira/' | relative_url }}), [WebDAV and FileBrowser Setup]({{ '/projects/opsis/docs/docker-webdav-filebrowser/' | relative_url }}), [PineconeDB Docker Setup]({{ '/projects/opsis/docs/docker-pinecone-local/' | relative_url }}), [Ollama Setup Notes]({{ '/projects/opsis/docs/docker-ollama/' | relative_url }}).
 - Model and retrieval research: [Ollama Embedding Research]({{ '/projects/opsis/docs/ollama-embedding-research/' | relative_url }}), [Ollama Model Research]({{ '/projects/opsis/docs/ollama-models-research/' | relative_url }}), [Custom LLM Agent Model (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent/' | relative_url }}), [Custom LLM Agent Context (Phanes)]({{ '/projects/opsis/docs/custom-llm-agent-context/' | relative_url }}), [Future Implementation and TODOs]({{ '/projects/opsis/docs/future-implementation-todos/' | relative_url }}), [Future Steps]({{ '/projects/opsis/docs/future-steps/' | relative_url }}), and [Ollama API Test Commands]({{ '/projects/opsis/docs/ollama-test-api/' | relative_url }}).

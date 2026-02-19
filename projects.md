@@ -2,6 +2,7 @@
 layout: page
 title: Projects
 description: Explore the different type of AI projects
+permalink: /projects/
 ---
 
 {% assign sorted_projects = site.projects | sort: 'title' %}
@@ -10,7 +11,9 @@ description: Explore the different type of AI projects
   {% for project in sorted_projects %}
   <div class="feature-card">
     <h3>{% if project.icon %}{{ project.icon }} {% endif %}{{ project.title }}</h3>
-    {% if project.tagline %}
+    {% if project.title == "Opsis" %}
+    <p>Opsis is a containerized local AI Jira ticket first responder that answers using retrieved relevant stored information from internal servers, not hallucinated guesses.</p>
+    {% elsif project.tagline %}
     <p>{{ project.tagline }}</p>
     {% endif %}
 

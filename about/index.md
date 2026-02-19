@@ -2,6 +2,7 @@
 layout: page
 title: About
 description: AI engineer focused on practical RAG and agent systems
+permalink: /about/
 ---
 
 # About
