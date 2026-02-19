@@ -59,7 +59,7 @@ Installation & Setup Docs: [Opsis docs hub]({{ '/projects/opsis/docs/' | relativ
 
 ---
 
-## Why It Exists
+## Practical Validation Environment
 
 Most support automation demos skip realistic data lifecycle and observability. Opsis is designed to test the full loop under practical conditions:
 
@@ -82,7 +82,7 @@ This gives a controlled environment for validating retrieval quality, model beha
 3. Embeddings are produced with Ollama.
 4. Vectors and metadata are stored in PineconeDB.
 
-Read more: [Generate Synthetic PDFs]({{ '/projects/opsis/docs/generate-synthetic-pdfs/' | relative_url }}), [PDF Indexing Explainer]({{ '/projects/opsis/docs/pdf-indexing-explainer/' | relative_url }}), [PineconeDB Issues]({{ '/projects/opsis/docs/pinecone-local-issues/' | relative_url }}).
+Read more: [Generate Synthetic PDFs]({{ '/projects/opsis/docs/generate-synthetic-pdfs/' | relative_url }}), [PDF Chunking, Embedding, and Indexing]({{ '/projects/opsis/docs/pdf-indexing-explainer/' | relative_url }}), [PineconeDB Issues]({{ '/projects/opsis/docs/pinecone-local-issues/' | relative_url }}).
 
 ### Response Path
 
@@ -107,28 +107,6 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 - Mac host runs Ollama natively (`:11434`) for local LLM + embedding inference.
 - Docker network `mvp-net` contains Jira (`:8080`) with Postgres (`:5432`), WebDAV (`:8081`), FileBrowser (`:8082`), PineconeDB control (`:5080`) and data plane (`:5081`), and the Pipeline app container.
 - WebDAV and FileBrowser share the same document volume for upload + ingestion workflow continuity.
-
-### Component Map (ASCII)
-
-```text
-Mac Host
-┌──────────────────────────────────────────────────────────────┐
-│ Docker network: mvp-net                                     │
-│                                                              │
-│ Services                                                     │
-│ - Jira (:8080) + Postgres (:5432)                           │
-│ - WebDAV (:8081) + FileBrowser (:8082)                      │
-│ - PineconeDB control (:5080), data (:5081)                  │
-│                                                              │
-│ Pipeline App (CrewAI + Python)                              │
-│ Ticket Analyzer -> Knowledge Retriever -> Response Writer    │
-│ main.py poll loop -> PDF Indexer (scripts/index-pdfs.sh)    │
-│                                                              │
-│ Host bridge                                                  │
-│ mvp-net -> host.docker.internal -> Ollama (:11434)          │
-│ Model runtime: llama3.2 + nomic-embed                       │
-└──────────────────────────────────────────────────────────────┘
-```
 
 ### Pipeline App Breakdown
 

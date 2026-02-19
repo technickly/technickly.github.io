@@ -1,6 +1,6 @@
 ---
 layout: page
-title: PDF Indexing Explainer
+title: PDF Chunking, Embedding, and Indexing
 permalink: /projects/opsis/docs/pdf-indexing-explainer/
 ---
 
