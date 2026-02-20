@@ -32,7 +32,7 @@ Before installing Opsis, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/opsis.git
+git clone https://github.com/technickly/opsis.git
 cd opsis
 ```
 
@@ -463,8 +463,8 @@ tail -f logs/opsis.log
 
 ## Getting Help
 
-- **GitHub Issues**: https://github.com/yourusername/opsis/issues
-- **Discussions**: https://github.com/yourusername/opsis/discussions
+- **GitHub Issues**: https://github.com/technickly/opsis/issues
+- **Discussions**: https://github.com/technickly/opsis/discussions
 - **Email**: [technickly@gmail.com](mailto:technickly@gmail.com)
 
 [View Full Documentation →](/docs/){: .btn .btn-primary}

@@ -4,6 +4,8 @@ title: Opsis Demo Walkthrough
 permalink: /projects/opsis/docs/demo-walkthrough/
 ---
 
+> Imported from `docs/demo_walkthrough.md`
+
 # Opsis AI — Support Pipeline Demo Walkthrough
 
 > **What this is:** An end-to-end walkthrough of the Opsis RAG auto-responder pipeline.
@@ -12,21 +14,33 @@ permalink: /projects/opsis/docs/demo-walkthrough/
 > in the voice of **Phanes** (the Opsis support persona), and posts it back to the
 > ticket — all without any human intervention.
 
-## Walkthrough Steps
+---
 
-1. [Step 1: User Creates a Jira Ticket](#step-1)
-2. [Step 2: Pipeline Detects the Ticket](#step-2)
-3. [Step 3: Ticket Data Fetched (Python)](#step-3)
-4. [Step 4: Knowledge Base Searched (Python)](#step-4)
-5. [Step 5: CrewAI Agent 1 - Ticket Analyzer](#step-5)
-6. [Step 6: CrewAI Agent 2 - Knowledge Retriever](#step-6)
-7. [Step 7: CrewAI Agent 3 - Phanes Writes the Response](#step-7)
-8. [Step 8: Comment Posted to Jira](#step-8)
-9. [Step 9: Output - Jira Ticket with Phanes Response](#step-9)
+## Pipeline Overview
+
+```mermaid
+flowchart TD
+    A[" User\nCreates Jira ticket"] --> B[" Pipeline\nPolls Jira every 60s"]
+    B --> C[" Fetch ticket\nJiraFetchTool — Python"]
+    C --> D[" RAG search\nEmbed query → PineconeDB"]
+    D --> E[" Agent 1: Ticket Analyzer\nStructures the problem"]
+    E --> F[" Agent 2: Knowledge Retriever\nSynthesizes doc excerpts"]
+    F --> G[" Agent 3: Phanes\nWrites the response"]
+    G --> H[" Post comment\nJiraCommentTool — Python"]
+    H --> I[" Label ticket\nauto-responded"]
+    I --> J[" User receives\nPhanes comment on ticket"]
+
+    style A fill:#e8f4fd,stroke:#2196F3
+    style J fill:#e8f8e8,stroke:#4CAF50
+    style G fill:#fff3e0,stroke:#FF9800
+```
+
+> **Architecture note:** All I/O (Jira fetch, RAG search, comment post) happens in
+> Python before the crew runs. The three LLM agents receive pre-fetched data embedded
+> in their task descriptions and produce only text — no tool-calling loops possible.
 
 ---
 
-<a id="step-1"></a>
 ## Step 1 — User Creates a Jira Ticket
 
 A support user files a ticket in the `SUP` project describing their problem.
@@ -40,8 +54,8 @@ A support user files a ticket in the `SUP` project describing their problem.
 | Project | SUP |
 | Summary | `Login issue after password reset` |
 | Description | `After resetting my password I can no longer log in. The page just reloads with no error message. Tried Chrome and Safari.` |
-| Priority | High |
-| Reporter | ryan |
+| Priority | Medium |
+| Reporter | nick |
 | Status | Backlog |
 | Labels | *(none)* |
 
@@ -50,7 +64,6 @@ the pipeline polls for.
 
 ---
 
-<a id="step-2"></a>
 ## Step 2 — Pipeline Detects the Ticket
 
 The pipeline polls Jira every 60 seconds using a JQL query that finds open,
@@ -67,9 +80,9 @@ ORDER BY created ASC
 ```
 Polling Jira for new tickets (project=SUP)...
   JQL returned 1 ticket(s)
-    SUP-8: comments=0  labels=[]
+    SUP-6: comments=0  labels=[]
   After dedup filter: 1 ticket(s)
-Found 1 unresponded ticket(s): ['SUP-8']
+Found 1 unresponded ticket(s): ['SUP-6']
 ```
 
 The pipeline confirms three conditions before processing:
@@ -80,21 +93,20 @@ The pipeline confirms three conditions before processing:
 
 ---
 
-<a id="step-3"></a>
 ## Step 3 — Ticket Data Fetched (Python)
 
 Before any AI agents run, the pipeline fetches the full ticket as structured JSON
 directly in Python — no LLM involved at this step.
 
-**Raw fetch output (`JiraFetchTool._run("SUP-8")`):**
+**Raw fetch output (`JiraFetchTool._run("SUP-6")`):**
 ```json
 {
-  "key": "SUP-8",
+  "key": "SUP-6",
   "summary": "Login issue after password reset",
   "description": "After resetting my password I can no longer log in. The page just reloads with no error message. Tried Chrome and Safari.",
-  "priority": "High",
+  "priority": "Medium",
   "status": "Backlog",
-  "reporter": "ryan",
+  "reporter": "nick",
   "labels": [],
   "components": [],
   "created": "2026-02-19T14:22:03.000+0000"
@@ -107,7 +119,6 @@ the small model (llama3.2 3B) from getting stuck in a tool-calling loop.
 
 ---
 
-<a id="step-4"></a>
 ## Step 4 — Knowledge Base Searched (Python)
 
 The pipeline runs two semantic searches against the PineconeDB vector database,
@@ -150,15 +161,14 @@ Query 2: "After resetting my password I can no longer log in..."
 
 ---
 
-<a id="step-5"></a>
-## Step 5 — CrewAI Agent 1: Ticket Analyzer
+## Step 5 — Agent 1: Ticket Analyzer
 
 **Role:** Reads the pre-fetched JSON and produces a structured analysis that downstream
 agents will use to formulate the response.
 
 **Input:** Ticket JSON from Step 3, embedded in the task description.
 
-**CrewAI Agent output (Final Answer):**
+**Agent output (Final Answer):**
 ```
 problem_statement: The user is unable to log in after a password reset.
   The login page reloads silently without displaying any error message,
@@ -172,21 +182,20 @@ search_queries:
   - "session cookie not set after authentication"
   - "browser cache login redirect loop"
 
-priority: High
-reporter: ryan
+priority: Medium
+reporter: nick
 ```
 
 ---
 
-<a id="step-6"></a>
-## Step 6 — CrewAI Agent 2: Knowledge Retriever
+## Step 6 — Agent 2: Knowledge Retriever
 
 **Role:** Reads the pre-fetched RAG chunks and synthesizes the most relevant passages
 into a clean, cited context block for the response writer.
 
 **Input:** Raw Pinecone results from Step 4, embedded in the task description.
 
-**CrewAI Agent output (Final Answer):**
+**Agent output (Final Answer):**
 ```
 The following documentation passages are most relevant to this login issue:
 
@@ -204,8 +213,7 @@ The following documentation passages are most relevant to this login issue:
 
 ---
 
-<a id="step-7"></a>
-## Step 7 — CrewAI Agent 3: Phanes Writes the Response
+## Step 7 — Agent 3: Phanes Writes the Response
 
 **Role:** **Phanes** — the Opsis support persona — takes the ticket analysis and
 synthesized documentation and drafts a response.
@@ -213,7 +221,7 @@ synthesized documentation and drafts a response.
 **Persona:** Phanes (Φάνης) is named for the ancient Greek deity of light and new
 beginnings, whose name shares its root with *opsis* (sight, vision, clarity).
 
-**CrewAI Agent output — the actual Phanes comment posted to Jira:**
+**Agent output — the actual Phanes comment posted to Jira:**
 
 ---
 
@@ -248,7 +256,6 @@ beginnings, whose name shares its root with *opsis* (sight, vision, clarity).
 
 ---
 
-<a id="step-8"></a>
 ## Step 8 — Comment Posted to Jira
 
 The comment is posted to the Jira ticket by the **Phanes bot user** — a dedicated
@@ -260,16 +267,15 @@ ticket, preventing any duplicate responses on subsequent polling cycles.
 
 **Pipeline log:**
 ```
-  [pipeline] Posting Phanes comment to SUP-8...
-  [pipeline] SUCCESS: Comment posted to SUP-8 by Phanes,
+  [pipeline] Posting Phanes comment to SUP-6...
+  [pipeline] SUCCESS: Comment posted to SUP-6 by Phanes,
              label 'auto-responded' added.
 
-✓ Crew completed for SUP-8
+✓ Crew completed for SUP-6
 ```
 
 ---
 
-<a id="step-9"></a>
 ## Step 9 — Output: Jira Ticket with Phanes Response
 
 The user returns to their Jira ticket and sees the Phanes comment posted automatically.

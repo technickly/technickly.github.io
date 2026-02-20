@@ -97,7 +97,7 @@ For each PDF:
     │
     ├─► Extract text (pdfplumber, page by page)
     │
-    ├─► Chunk text (512 tokens, 64-token overlap)
+    ├─► Chunk text (300 words, 50-word overlap)
     │
     ├─► Generate embedding via Ollama
     │   POST /api/embeddings {model: nomic-embed-text}

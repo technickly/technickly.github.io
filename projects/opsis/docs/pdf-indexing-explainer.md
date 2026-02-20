@@ -28,7 +28,7 @@ Extract raw text (pdfplumber, page by page)
 Clean the text (strip junk, collapse whitespace)
   │
   ▼
-Split into overlapping chunks (500 words, 50-word overlap)
+Split into overlapping chunks (300 words, 50-word overlap)
   │
   ▼
 Embed each chunk (Ollama → nomic-embed-text → float[768])
@@ -87,10 +87,10 @@ PDFs embed fonts that sometimes produce garbage characters — curly quotes that
 ## Step 3 — Chunking (the most important decision)
 
 ```python
-CHUNK_SIZE    = 500   # words
+CHUNK_SIZE    = 300   # words
 CHUNK_OVERLAP = 50    # words
 
-def _chunk_text(text: str, size=500, overlap=50) -> list[str]:
+def _chunk_text(text: str, size=300, overlap=50) -> list[str]:
     words = text.split()
     chunks = []
     start = 0
@@ -98,26 +98,26 @@ def _chunk_text(text: str, size=500, overlap=50) -> list[str]:
         end = min(start + size, len(words))
         chunk = " ".join(words[start:end])
         chunks.append(chunk)
-        start += size - overlap   # ← overlap means we step 450, not 500
+        start += size - overlap   # ← overlap means we step 250, not 300
     return chunks
 ```
 
 ### What chunking is
 
-An embedding model has a context window — a maximum number of tokens it can read at once. `nomic-embed-text` handles up to 8,192 tokens, but a dense 500-word chunk embeds much better than a 5,000-word chapter, because:
+An embedding model has a context window — a maximum number of tokens it can read at once. `nomic-embed-text` handles up to 8,192 tokens, but a dense 300-word chunk embeds much better than a 5,000-word chapter, because:
 
 - A large chunk covers too many topics → the embedding averages across all of them → becomes "about everything" → matches nothing precisely
 - A small chunk is focused → the embedding captures one specific concept → matches precisely
 
-### Why 500 words
+### Why 300 words
 
-500 words is roughly one full section of a support document — e.g. "Password Reset Procedure" with its 4–6 step instructions. It is:
+300 words is roughly one focused procedure in a support document — e.g. "How to reset your password" with its 3–5 steps. It is:
 
 - Long enough to contain a complete thought with context
 - Short enough to be about one specific thing
-- Within the sweet spot for `nomic-embed-text` retrieval quality
+- Better suited to short support PDFs where larger chunks would span multiple unrelated sections
 
-For reference: 500 words ≈ 650–700 tokens ≈ about one A4 page of normal text.
+For reference: 300 words ≈ 390–420 tokens ≈ about half an A4 page of normal text.
 
 ### Why overlap (50 words)
 
@@ -132,7 +132,7 @@ Chunk 2: "locked for 30 minutes. To unlock it contact your admin..."
 
 The key information ("locked for 30 minutes") is split. If a ticket asks "why is my account locked", neither chunk alone gives the full answer.
 
-With 50-word overlap, the window slides 450 words forward each time (not 500). The last 50 words of chunk N become the first 50 words of chunk N+1:
+With 50-word overlap, the window slides 250 words forward each time (not 300). The last 50 words of chunk N become the first 50 words of chunk N+1:
 
 ```
 Chunk 1: "...After 5 failed login attempts your account will be locked for 30 minutes."
@@ -145,12 +145,12 @@ Now both chunks contain the complete thought. The search is more likely to find 
 
 ```
 Document text (words):
-[1 ........ 500][451 ....... 950][901 ....... 1400] ...
+[1 ........ 300][251 ....... 550][501 ....... 800] ...
      chunk 1          chunk 2          chunk 3
 
 Overlap zone:
-              [451..500] appears in both chunk 1 and chunk 2
-                         [901..950] appears in both chunk 2 and chunk 3
+              [251..300] appears in both chunk 1 and chunk 2
+                         [501..550] appears in both chunk 2 and chunk 3
 ```
 
 ---
@@ -254,7 +254,7 @@ Pinecone has a request size limit. Sending 100 vectors per HTTP call is the stan
 
 Support docs have predictable characteristics that make this chunking strategy work well:
 
-**Consistent section size** — a "How to reset your password" section is naturally ~300–600 words. Our 500-word chunks align well with these natural boundaries.
+**Consistent section size** — a "How to reset your password" section is naturally ~300–600 words. Our 300-word chunks target the shorter end of that range, keeping each chunk focused on a single procedure.
 
 **Self-contained procedures** — support doc sections are written to be read independently. A chunked passage typically contains a complete procedure, not half of one.
 
@@ -292,7 +292,7 @@ The ticket never needs to use the same words as the documentation. "The link exp
 | Decision | Value | Why |
 |---|---|---|
 | Text extractor | pdfplumber | Best layout reconstruction for multi-column docs |
-| Chunk size | 500 words | Matches natural section length in support docs |
+| Chunk size | 300 words | Focused on single procedures in short support docs |
 | Overlap | 50 words | Prevents meaning loss at chunk boundaries |
 | Embedding model | nomic-embed-text | Fast, 768-dim, strong on retrieval tasks, 8k context |
 | Similarity metric | cosine | Direction-based, not magnitude-based |

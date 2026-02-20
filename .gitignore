@@ -69,3 +69,6 @@ Desktop.ini
 # Deployment
 bucket-policy.json
 dns-records.json
+
+# Local import tooling
+scripts/import_mvp_opsis_docs.sh

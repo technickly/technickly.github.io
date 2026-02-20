@@ -9,7 +9,7 @@ tech_stack:
   - Jira API
   - WebDAV
   - Docker
-github_url: https://github.com/yourusername/opsis
+github_url: https://github.com/technickly/opsis
 docs_url: /projects/opsis/docs/
 ---
 
@@ -110,7 +110,7 @@ Read more: [Opsis Architecture]({{ '/projects/opsis/docs/architecture/' | relati
 
 ### Data Flow Details
 
-- Indexing flow: list PDFs from WebDAV -> download to cache -> extract text by page -> chunk (`512` tokens, `64` overlap) -> embed with `nomic-embed-text` -> upsert vectors + metadata (`source`, `page`, `text`).
+- Indexing flow: list PDFs from WebDAV -> download to cache -> extract text by page -> chunk (`300` words, `50` overlap) -> embed with `nomic-embed-text` -> upsert vectors + metadata (`source`, `page`, `text`).
 - Response flow: Jira JQL polling (`statusCategory != Done` and empty comment) -> ticket analysis -> embedding + retrieval (`top-6`) -> cited response draft (persona shaped by response-agent parameters) -> Jira bot comment post.
 
 ### Pipeline App Breakdown

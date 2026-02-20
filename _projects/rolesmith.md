@@ -8,7 +8,7 @@ tech_stack:
   - Ollama
   - ChromaDB
   - PDF tooling
-github_url: https://github.com/yourusername/rolesmith
+github_url: https://github.com/technickly/rolesmith
 ---
 
 ## Status

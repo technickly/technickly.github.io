@@ -23,4 +23,4 @@ I build practical AI systems with a focus on local-first workflows, clear archit
 ## Contact
 
 - Email: [technickly@gmail.com](mailto:technickly@gmail.com)
-- GitHub: [yourusername](https://github.com/yourusername)
+- GitHub: [technickly](https://github.com/technickly)
