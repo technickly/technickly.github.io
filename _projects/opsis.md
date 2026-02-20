@@ -1,7 +1,7 @@
 ---
 layout: project
 title: Opsis
-tagline: Opsis (ὄψις) is a containerized local AI Jira ticket first responder that uses a RAG workflow to answer from relevant internal knowledge, not hallucinated guesses.
+tagline: Opsis is a containerized local AI Jira ticket first responder that uses a RAG workflow to answer from relevant internal knowledge, not hallucinated guesses.
 tech_stack:
   - CrewAI
   - Ollama

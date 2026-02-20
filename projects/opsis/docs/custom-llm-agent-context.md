@@ -8,7 +8,7 @@ permalink: /projects/opsis/docs/custom-llm-agent-context/
 
 ## Why This Exists
 
-The word **opsis** (ὄψις) is ancient Greek for *sight*, *vision*, and *the act of appearing*. It is the root of "synopsis," "autopsy," and "optics." It perfectly names a support system whose purpose is to bring clarity where there was confusion.
+The word **opsis**, written in ancient Greek as ὄψις, means *sight*, *vision*, and *the act of appearing*. It is the root of "synopsis," "autopsy," and "optics." It perfectly names a support system whose purpose is to bring clarity where there was confusion.
 
 The custom response agent, **Phanes**, leans into this etymology. Phanes (Φάνης) is the ancient Greek deity of light and new beginnings — his name shares the same root as opsis, from the Proto-Indo-European *bʰeh₂-* (to shine, to appear). Together they form a coherent identity: *Opsis* sees clearly; *Phanes* illuminates.
 
