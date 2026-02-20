@@ -4,8 +4,6 @@ title: Opsis Setup Guide
 permalink: /projects/opsis/docs/setup-guide/
 ---
 
-> Imported from `SETUP_GUIDE.md`
-
 #  Setup Guide
 
 Follow these steps in order. Check off each item in [CHECKPOINTS.md](../checkpoints/) as you go.
@@ -52,7 +50,7 @@ brew install ollama
 ollama serve
 
 # Pull models (in a new tab)
-ollama pull llama3.2:latest          # ~2 GB — LLM for response generation
+ollama pull llama3.1:8b              # ~4.7 GB — LLM for response generation
 ollama pull nomic-embed-text:latest  # ~274 MB — embeddings for RAG
 
 # Verify
@@ -64,7 +62,7 @@ Test both are working:
 ```bash
 # LLM
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "prompt": "say hello",
   "stream": false
 }' | python3 -m json.tool

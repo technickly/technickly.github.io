@@ -4,8 +4,6 @@ title: Generate Synthetic PDFs
 permalink: /projects/opsis/docs/generate-synthetic-pdfs/
 ---
 
-> Imported from `docs/generate-synthetic-pdfs.md`
-
 # Generating Synthetic PDFs for RAG Testing
 
 Synthetic PDFs give you a realistic knowledge base to test the pipeline against

@@ -4,8 +4,6 @@ title: Opsis MVP README
 permalink: /projects/opsis/docs/readme/
 ---
 
-> Imported from `README.md`
-
 #  Jira RAG Auto-Responder — Local MVP
 
 A fully local AI pipeline that watches Jira for new support tickets, retrieves context from PDF docs stored in a WebDAV server via RAG, and automatically posts a first-response comment back to the ticket.
@@ -56,7 +54,7 @@ New Jira Ticket
       │
       ▼
 [CrewAI: Response Writer — Phanes]
-  → Uses Ollama LLM (llama3.2:latest) to draft a response
+  → Uses Ollama LLM (llama3.1:8b) to draft a response
   → Writes in the voice of a Stoic philosopher (warm, precise, cites sources)
   → Cites PDF sources by filename/page
   → Signs every response: — Phanes, Opsis Support
@@ -93,7 +91,7 @@ cp .env.example .env
 # 3. Start Ollama natively (Metal GPU)
 brew install ollama
 ollama serve &
-ollama pull llama3.2:latest
+ollama pull llama3.1:8b
 ollama pull nomic-embed-text:latest
 
 # 4. Start all Docker services
@@ -181,7 +179,7 @@ mvp-opsis/
 | `JIRA_API_TOKEN` | `MzQ2...` | Generated in Jira UI |
 | `JIRA_PROJECT_KEY` | `SUP` | Your project key |
 | `OLLAMA_BASE_URL` | `http://host.docker.internal:11434` | Native Ollama host |
-| `OLLAMA_LLM_MODEL` | `llama3.2:latest` | LLM for response generation |
+| `OLLAMA_LLM_MODEL` | `llama3.1:8b` | LLM for response generation |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text:latest` | Embedding model for RAG |
 | `PINECONE_HOST` | `http://localhost:5080` | PineconeDB URL |
 

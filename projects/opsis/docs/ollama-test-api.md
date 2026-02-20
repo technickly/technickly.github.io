@@ -4,8 +4,6 @@ title: Ollama API Test Commands
 permalink: /projects/opsis/docs/ollama-test-api/
 ---
 
-> Imported from `docs/ollama_test_api.md`
-
 # Ollama API — Reference & Test Commands
 
 Run these from your Mac terminal. Ollama runs natively on macOS (not in Docker)
@@ -53,7 +51,7 @@ ollama list
 Example output:
 ```
 NAME                       ID              SIZE    MODIFIED
-llama3.2:latest            a80c4f17acd5    2.0 GB  2 hours ago
+llama3.1:8b            a80c4f17acd5    2.0 GB  2 hours ago
 nomic-embed-text:latest    0a109f422b47    274 MB  2 hours ago
 ```
 
@@ -63,7 +61,7 @@ can be used.
 ### Pull a model
 
 ```bash
-ollama pull llama3.2:latest
+ollama pull llama3.1:8b
 ollama pull nomic-embed-text:latest
 ```
 
@@ -73,7 +71,7 @@ stored at `~/.ollama/models/` and persist between restarts.
 ### Remove a model
 
 ```bash
-ollama rm llama3.2:latest
+ollama rm llama3.1:8b
 ```
 
 Frees disk space. The model will need to be pulled again to use it.
@@ -81,7 +79,7 @@ Frees disk space. The model will need to be pulled again to use it.
 ### Show model details (size, quantization, architecture)
 
 ```bash
-ollama show llama3.2:latest
+ollama show llama3.1:8b
 ```
 
 ---
@@ -92,7 +90,7 @@ ollama show llama3.2:latest
 
 ```bash
 # Start a generation and watch system resource usage
-ollama run llama3.2:latest "hello"
+ollama run llama3.1:8b "hello"
 ```
 
 In Activity Monitor → GPU History, you should see GPU usage spike. If only CPU
@@ -110,7 +108,7 @@ Example response:
 {
   "models": [
     {
-      "name": "llama3.2:latest",
+      "name": "llama3.1:8b",
       "size_vram": 2019393024,
       "expires_at": "2026-02-17T13:00:00Z"
     }
@@ -139,7 +137,7 @@ request. You can override this per-request with the `keep_alive` parameter.
 
 ```bash
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "prompt": "",
   "keep_alive": -1
 }'
@@ -153,7 +151,7 @@ pipeline fires, so there's no cold-start delay.
 ```bash
 # Add this to your session startup or a shell alias
 curl -s http://localhost:11434/api/generate \
-  -d '{"model":"llama3.2:latest","prompt":"","keep_alive":-1}' > /dev/null && \
+  -d '{"model":"llama3.1:8b","prompt":"","keep_alive":-1}' > /dev/null && \
 curl -s http://localhost:11434/api/embeddings \
   -d '{"model":"nomic-embed-text:latest","prompt":"warmup","keep_alive":-1}' > /dev/null && \
 echo "Both models warm."
@@ -163,7 +161,7 @@ echo "Both models warm."
 
 ```bash
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "prompt": "",
   "keep_alive": 0
 }'
@@ -171,13 +169,13 @@ curl http://localhost:11434/api/generate -d '{
 
 ---
 
-## 4. LLM — `llama3.2:latest`
+## 4. LLM — `llama3.1:8b`
 
 ### Request
 
 ```bash
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "prompt": "In one sentence, what is a support ticket?",
   "stream": false
 }'
@@ -187,7 +185,7 @@ curl http://localhost:11434/api/generate -d '{
 
 ```json
 {
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "created_at": "2026-02-17T12:00:00Z",
   "response": "A support ticket is a formal record of a customer's request, issue, or question submitted to a support team for resolution.",
   "done": true,
@@ -280,8 +278,8 @@ curl http://localhost:11434/api/ps | python3 -m json.tool
 {
   "models": [
     {
-      "name": "llama3.2:latest",
-      "model": "llama3.2:latest",
+      "name": "llama3.1:8b",
+      "model": "llama3.1:8b",
       "size": 2019393024,
       "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
       "details": {
@@ -289,7 +287,7 @@ curl http://localhost:11434/api/ps | python3 -m json.tool
         "format": "gguf",
         "family": "llama",
         "families": ["llama"],
-        "parameter_size": "3.2B",
+        "parameter_size": "8B",
         "quantization_level": "Q4_K_M"
       },
       "expires_at": "2026-02-17T13:00:00Z",
@@ -315,15 +313,15 @@ curl http://localhost:11434/api/tags | python3 -m json.tool
 {
   "models": [
     {
-      "name": "llama3.2:latest",
-      "model": "llama3.2:latest",
+      "name": "llama3.1:8b",
+      "model": "llama3.1:8b",
       "modified_at": "2026-02-17T10:00:00Z",
       "size": 2019393024,
       "digest": "a80c4f17acd5...",
       "details": {
         "format": "gguf",
         "family": "llama",
-        "parameter_size": "3.2B",
+        "parameter_size": "8B",
         "quantization_level": "Q4_K_M"
       }
     },
@@ -352,7 +350,7 @@ The pipeline uses the chat endpoint under the hood, not raw `generate`:
 
 ```bash
 curl http://localhost:11434/api/chat -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "stream": false,
   "messages": [
     {
@@ -371,7 +369,7 @@ curl http://localhost:11434/api/chat -d '{
 
 ```json
 {
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "created_at": "2026-02-17T12:00:00Z",
   "message": {
     "role": "assistant",
@@ -393,7 +391,7 @@ Run this any time to confirm both models are ready:
 ```bash
 echo "=== LLM ===" && \
 curl -s http://localhost:11434/api/generate \
-  -d '{"model":"llama3.2:latest","prompt":"ping","stream":false}' \
+  -d '{"model":"llama3.1:8b","prompt":"ping","stream":false}' \
   | python3 -c "import sys,json; d=json.load(sys.stdin); print('OK -', d['response'][:50])" && \
 echo "=== Embeddings ===" && \
 curl -s http://localhost:11434/api/embeddings \

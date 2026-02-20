@@ -4,8 +4,6 @@ title: Opsis Setup Checkpoints
 permalink: /projects/opsis/docs/checkpoints/
 ---
 
-> Imported from `CHECKPOINTS.md`
-
 #  Checkpoints
 
 Track your progress. Check off each item as you verify it.
@@ -21,7 +19,7 @@ Track your progress. Check off each item as you verify it.
 ### 1.2 Ollama (Native Mac)
 - [ ] `brew install ollama` complete
 - [ ] `ollama serve` running in a terminal tab
-- [ ] `ollama pull llama3.2:latest` complete (~2 GB)
+- [ ] `ollama pull llama3.1:8b` complete (~4.7 GB)
 - [ ] `ollama pull nomic-embed-text:latest` complete (~274 MB)
 - [ ] `ollama list` shows both models
 - [ ] LLM test returns a response (see SETUP_GUIDE Step 3)

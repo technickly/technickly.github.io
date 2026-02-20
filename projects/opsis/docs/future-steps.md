@@ -4,8 +4,6 @@ title: Future Steps
 permalink: /projects/opsis/docs/future-steps/
 ---
 
-> Imported from `docs/future-steps.md`
-
 # Future Steps — Opsis Pipeline
 
 > Ideas for future development. Nothing here is implemented. This is a design space document.

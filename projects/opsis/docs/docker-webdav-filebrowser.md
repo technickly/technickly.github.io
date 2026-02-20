@@ -4,8 +4,6 @@ title: WebDAV and FileBrowser Setup
 permalink: /projects/opsis/docs/docker-webdav-filebrowser/
 ---
 
-> Imported from `docker/webdav/README.md`
-
 #  WebDAV + FileBrowser — Local SharePoint Simulation
 
 ## The Concept

@@ -4,8 +4,6 @@ title: Ollama Model Research
 permalink: /projects/opsis/docs/ollama-models-research/
 ---
 
-> Imported from `docs/ollama-models-research.md`
-
 # Ollama LLM Models — Research & Alternatives
 
 > Context: `llama3.1:8b` is OOM-killing on this setup (multiple heavy Docker containers + Jira running alongside).

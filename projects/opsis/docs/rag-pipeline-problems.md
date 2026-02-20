@@ -4,8 +4,6 @@ title: Problems with the RAG Pipeline
 permalink: /projects/opsis/docs/rag-pipeline-problems/
 ---
 
-> Imported from `docs/Problems_with_rag_pipeline.md`
-
 # Problems with the RAG Pipeline — Debugging Log
 
 A complete record of every issue encountered while building the Jira → RAG → Phanes

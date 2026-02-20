@@ -4,8 +4,6 @@ title: Ollama Setup Notes
 permalink: /projects/opsis/docs/docker-ollama/
 ---
 
-> Imported from `docker/ollama/README.md`
-
 #  Ollama Setup — Native Mac (Not Docker)
 
 ## Why Native, Not Docker
@@ -14,8 +12,7 @@ Docker Desktop on macOS cannot expose the Apple Silicon GPU to containers. Runni
 
 | Mode | Model | Tokens/sec |
 |---|---|---|
-| Native Mac (Metal) | llama3.2:latest | ~40–60 |
-| Docker (CPU only) | llama3.2:latest | ~8–12 |
+| Native Mac (Metal) | llama3.1:8b | ~15–25 |
 | Docker (CPU only) | llama3.1:8b | ~5–8 + OOM kills |
 
 Running natively gives 4–5× faster inference and eliminates OOM issues entirely.
@@ -36,8 +33,8 @@ Leave `ollama serve` running in a dedicated terminal tab. Models are stored in `
 ## Models Used in This Project
 
 ```bash
-# LLM — generates support responses (~2 GB)
-ollama pull llama3.2:latest
+# LLM — generates support responses (~4.7 GB)
+ollama pull llama3.1:8b
 
 # Embeddings — powers RAG vector search (~274 MB)
 ollama pull nomic-embed-text:latest
@@ -64,7 +61,7 @@ OLLAMA_BASE_URL=http://host.docker.internal:11434
 ```bash
 # LLM
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2:latest",
+  "model": "llama3.1:8b",
   "prompt": "say hello in one sentence",
   "stream": false
 }' | python3 -m json.tool

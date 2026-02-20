@@ -4,8 +4,6 @@ title: Ollama Embedding Research
 permalink: /projects/opsis/docs/ollama-embedding-research/
 ---
 
-> Imported from `docs/ollama-embedding-research.md`
-
 # Ollama Embedding Models — Research & Comparison
 
 > Research compiled February 2026. Benchmarks sourced from MTEB leaderboard (May–June 2025).

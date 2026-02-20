@@ -4,8 +4,6 @@ title: PineconeDB Issues
 permalink: /projects/opsis/docs/pinecone-local-issues/
 ---
 
-> Imported from `docs/pinecone-local-issues.md`
-
 # PineconeDB — Known Issues & Fixes
 
 A running log of every issue hit when using `ghcr.io/pinecone-io/pinecone-local:latest`

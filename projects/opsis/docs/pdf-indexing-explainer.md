@@ -4,8 +4,6 @@ title: PDF Chunking, Embedding, and Indexing
 permalink: /projects/opsis/docs/pdf-indexing-explainer/
 ---
 
-> Imported from `docs/pdf-indexing-explainer.md`
-
 # PDF Indexing & Chunking — Deep Explainer
 
 This document explains exactly what happens when you run `bash scripts/index-pdfs.sh`, why each decision was made, and what the embedding is actually capturing.
@@ -115,7 +113,7 @@ An embedding model has a context window — a maximum number of tokens it can re
 
 - Long enough to contain a complete thought with context
 - Short enough to be about one specific thing
-- Better suited to short support PDFs where larger chunks would span multiple unrelated sections
+- Better suited to short support PDFs where 500 words would span multiple unrelated sections
 
 For reference: 300 words ≈ 390–420 tokens ≈ about half an A4 page of normal text.
 

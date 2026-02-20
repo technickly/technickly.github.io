@@ -4,8 +4,6 @@ title: Jira Docker Setup
 permalink: /projects/opsis/docs/docker-jira/
 ---
 
-> Imported from `docker/jira/README.md`
-
 #  Jira Setup
 
 ## Container

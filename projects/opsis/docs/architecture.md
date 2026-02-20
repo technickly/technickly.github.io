@@ -4,8 +4,6 @@ title: Opsis Architecture
 permalink: /projects/opsis/docs/architecture/
 ---
 
-> Imported from `ARCHITECTURE.md`
-
 #  Architecture
 
 ## Overview
@@ -69,7 +67,7 @@ This system is a local-first, event-driven RAG pipeline. All components run in D
   │                    │   Ollama  (native Mac)    │                        │
   │                    │   ollama serve  :11434    │                        │
   │                    │                           │                        │
-  │                    │   llama3.2:latest  (LLM)  │                        │
+  │                    │   llama3.1:8b      (LLM)  │                        │
   │                    │   nomic-embed-text (embed)│                        │
   │                    │   Metal GPU (Apple Silicon│                        │
   │                    └───────────────────────────┘                        │

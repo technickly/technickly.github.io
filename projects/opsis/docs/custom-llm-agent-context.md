@@ -4,8 +4,6 @@ title: Custom LLM Agent Context (Phanes)
 permalink: /projects/opsis/docs/custom-llm-agent-context/
 ---
 
-> Imported from `docs/custom_response_agent_context.md`
-
 # Custom Response Agent: Phanes, Oracle of the Opsis Support Temple
 
 ## Why This Exists
@@ -57,9 +55,9 @@ The key levers are **role**, **goal**, **backstory**, and **temperature**:
 | **0.6–0.7** | **Creative voice, still grounded** | **Phanes response writing** |
 | 0.8–1.0 | Highly variable, may hallucinate | Creative fiction only |
 
-At `0.6`, llama3.2 will vary sentence structure, choose more expressive vocabulary, and occasionally produce a genuinely elegant phrase. At `0.3`, it tends toward generic corporate-support language. The Stoic persona emerges most naturally in the 0.5–0.7 range.
+At `0.6`, `llama3.1:8b` will vary sentence structure, choose more expressive vocabulary, and occasionally produce a genuinely elegant phrase. At `0.3`, it tends toward generic corporate-support language. The Stoic persona emerges most naturally in the 0.5–0.7 range.
 
-> **Note for llama3.2:latest specifically:** This is a 3B parameter model — smaller than the 8B and 70B variants. The philosophical voice will be *present* but not as rich as with a larger model. If you upgrade to `llama3.1:8b` or `qwen2.5:7b`, the persona becomes noticeably more eloquent. The accuracy of step-by-step guidance does not significantly change between model sizes.
+> **Note on model size:** `llama3.1:8b` is the recommended LLM for this project. The philosophical voice is noticeably stronger at 8B than at 3B — sentence structure is richer, vocabulary more expressive, and the Stoic character more consistent across responses. If you want even higher quality, `llama3.1:13b` or `qwen2.5:14b` would further improve stylistic output. The accuracy of step-by-step guidance does not significantly change between model sizes.
 
 ---
 
@@ -266,9 +264,9 @@ After this, all comments will show **Phanes · Opsis AI** as the author with a r
 
 ---
 
-## What to Expect from llama3.2:latest
+## What to Expect from llama3.1:8b
 
-The Stoic tone is a *prompt-driven* persona — it does not require fine-tuning or a specialized model. However, smaller models have limits:
+The Stoic tone is a *prompt-driven* persona — it does not require fine-tuning or a specialized model. `llama3.1:8b` is a solid fit: large enough to hold the Stoic character with consistency, small enough to run natively on Apple Silicon at 15–25 tokens/sec.
 
 **What works well:**
 - Opening philosophical framing (the model picks this up reliably)
@@ -282,7 +280,7 @@ The Stoic tone is a *prompt-driven* persona — it does not require fine-tuning 
 - Very long tickets with complex technical descriptions may cause the model to prioritize information density over tone
 
 **Improving results:**
-- Upgrading to `llama3.1:8b` or `mistral:7b` significantly improves the stylistic quality
+- Upgrading to `llama3.1:13b` or `qwen2.5:14b` further improves stylistic quality if your hardware supports it
 - Adding a concrete example response to the backstory (few-shot prompting) is the single highest-leverage improvement available without changing models
 - The `max_iter=3` limit prevents the agent from over-refining; increase to 5 if you want it to self-critique and revise
 
