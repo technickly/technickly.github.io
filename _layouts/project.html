@@ -27,7 +27,7 @@ layout: default
       {% if page.github_url or page.docs_url or page.demo_url %}
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         {% if page.github_url %}
-        <a href="{{ page.github_url }}" class="btn btn-primary" target="_blank">View on GitHub →</a>
+        <a href="https://github.com/technickly" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         {% endif %}
         {% if page.docs_url %}
         <a href="{{ page.docs_url | relative_url }}" class="btn btn-secondary">View Project Documents</a>
